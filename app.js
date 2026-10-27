@@ -129,3 +129,42 @@ function instagramMedia(){return '<div class="card"><div class="tag">REAL EXERCI
 const realGuide=guideView;
 guideView=function(){realGuide();const select=document.querySelector("#guidePick"),content=document.querySelector("#guideContent");if(!select||!content)return;const strip=()=>{content.querySelectorAll("svg").forEach(n=>n.remove());content.querySelectorAll(".video-panel").forEach(n=>n.remove());content.querySelectorAll(".card").forEach(card=>{if(card.textContent.includes("Illustrated movement pattern")){const x=card.querySelector(".row > div:first-child");if(x){x.innerHTML='<div class="tag">EXERCISE GUIDE</div>'}}})};strip();const existing=document.querySelector("#featuredReel");if(!existing){const box=document.createElement("div");box.id="featuredReel";box.innerHTML=instagramMedia();document.querySelector("#app").insertBefore(box,content)}const old=select.onchange;select.onchange=()=>{old?.();strip()}};
 render();
+
+
+/* v2.5 — free licensed RepDB exercise illustrations */
+const REPDB_URL="https://cdn.jsdelivr.net/gh/RepDB/exercise-dataset@main/exercises.json";
+const REPDB_MEDIA="https://cdn.jsdelivr.net/gh/RepDB/exercise-dataset@main/";
+let repdbRecords=null,repdbStatus="loading";
+const EXERCISE_ALIASES={
+"Flat dumbbell bench press":["dumbbell bench press","flat dumbbell bench press"],
+"Incline dumbbell press":["incline dumbbell bench press","incline dumbbell press"],
+"Seated cable row":["seated cable row"],"Lat pulldown":["lat pulldown"],
+"Dumbbell lateral raise":["dumbbell lateral raise"],"Triceps pressdown":["triceps pushdown","cable triceps pushdown"],
+"Dumbbell biceps curl":["dumbbell biceps curl","dumbbell curl"],
+"Hack squat":["hack squat"],"Romanian deadlift":["romanian deadlift","barbell romanian deadlift"],
+"Seated leg curl":["seated leg curl"],"Leg extension":["leg extension"],
+"Standing calf raise":["standing calf raise"],"Cable crunch":["cable crunch"],
+"Chest-supported row":["chest supported row","chest-supported row"],
+"Machine shoulder press":["machine shoulder press"],"Cable fly":["cable chest fly","cable fly"],
+"Reverse pec deck":["reverse pec deck","reverse fly machine"],
+"Incline dumbbell curl":["incline dumbbell curl"],"Overhead triceps extension":["overhead triceps extension"],
+"Leg press":["leg press"],"Hip thrust":["hip thrust","barbell hip thrust"],
+"Bulgarian split squat":["bulgarian split squat","dumbbell bulgarian split squat"],
+"Lying leg curl":["lying leg curl"],"Seated calf raise":["seated calf raise"],
+"Hanging knee raise":["hanging knee raise"],"Dumbbell bench press":["dumbbell bench press"],
+"One-arm dumbbell row":["one arm dumbbell row","single arm dumbbell row"],
+"Goblet squat":["goblet squat"],"Dumbbell Romanian deadlift":["dumbbell romanian deadlift"],
+"Plank":["plank"],"Dumbbell incline press":["incline dumbbell bench press","incline dumbbell press"],
+"Dumbbell split squat":["dumbbell split squat"],"Chest-supported dumbbell row":["chest supported dumbbell row"],
+"Dumbbell shoulder press":["dumbbell shoulder press"],"Dumbbell hip thrust":["dumbbell hip thrust"],
+"Dead bug":["dead bug"]
+};
+function normalizeExerciseName(v){return String(v||"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim()}
+function findRepDB(name){if(!repdbRecords)return null;const choices=EXERCISE_ALIASES[name]||[name];for(const alias of choices){const n=normalizeExerciseName(alias);const match=repdbRecords.find(x=>normalizeExerciseName(x.name_en)===n);if(match)return match}return null}
+function repdbVisual(name){const x=findRepDB(name);if(!x)return '<div class="video-empty"><b>'+ (repdbStatus==="loading"?"Loading exercise illustrations…":"No exact visual match yet") +'</b><p class="note">'+(repdbStatus==="error"?"Connect to the internet to load the free exercise library.":"The app will not show a different exercise in place of this one.")+'</p></div>';const images=x.images?.flat||{};const frames=[images.start,images.peak,images.main].filter(Boolean);const imagesHTML=frames.map((path,i)=>'<img src="'+REPDB_MEDIA+encodeURI(path)+'" alt="'+escapeHTML(x.name_en)+' '+(frames.length===1?"demonstration":i===0?"start position":"finish position")+'" loading="lazy" style="width:100%;min-width:0;aspect-ratio:1;object-fit:contain;border-radius:14px;background:#e8edf3">').join("");return '<div style="display:grid;grid-template-columns:repeat('+Math.min(2,frames.length)+',minmax(0,1fr));gap:10px">'+imagesHTML+'</div><p class="note" style="font-size:12px">Illustrations: '+escapeHTML(x.name_en)+' · RepDB free dataset</p>'+(Array.isArray(x.instructions_en)?'<details><summary>Step-by-step instructions</summary><ol class="note">'+x.instructions_en.map(v=>'<li>'+escapeHTML(v)+'</li>').join("")+'</ol></details>':'')};
+function repdbPanel(name){return '<section class="card" id="repdbPanel"><div class="tag">LICENSED EXERCISE GUIDE</div><h2>How to perform this exercise</h2>'+repdbVisual(name)+'<p class="note" style="font-size:12px"><a href="https://repdb.co/" target="_blank" rel="noopener noreferrer">Exercise data by RepDB (repdb.co)</a> · Free edition, used with attribution.</p></section>'}
+function refreshRepDB(){const sel=document.querySelector("#guidePick"),container=document.querySelector("#guideContent");if(!sel||!container)return;const panel=document.querySelector("#repdbPanel");if(panel)panel.outerHTML=repdbPanel(sel.value)}
+const oldGuideRepDB=guideView;
+guideView=function(){oldGuideRepDB();const sel=document.querySelector("#guidePick"),container=document.querySelector("#guideContent");if(!sel||!container)return;container.querySelectorAll("svg,.video-panel").forEach(n=>n.remove());container.insertAdjacentHTML("afterbegin",repdbPanel(sel.value));const prev=sel.onchange;sel.onchange=()=>{prev?.();container.querySelectorAll("svg,.video-panel").forEach(n=>n.remove());refreshRepDB()}};
+async function loadRepDB(){try{const response=await fetch(REPDB_URL,{cache:"force-cache"});if(!response.ok)throw Error("HTTP "+response.status);const data=await response.json();if(!Array.isArray(data.exercises))throw Error("Invalid exercise dataset");repdbRecords=data.exercises;repdbStatus="ready";refreshRepDB()}catch(e){repdbStatus="error";refreshRepDB()}}
+loadRepDB();render();
