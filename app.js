@@ -330,7 +330,7 @@ function visual(name){
   return '<div class="photo-unavailable"><span class="photo-mark">◎</span><strong>'+(PHOTO_STATUS==="loading"?"Loading exercise photographs…":"Exact exercise photograph unavailable")+'</strong><p>'+(PHOTO_STATUS==="error"?"Check your internet connection to load exercise photography.":"We only show photographs for a matched exercise and equipment variation.")+'</p></div>';
  }
  const frames=record.images.slice(0,2);
- return '<div class="photo-grid">'+frames.map((path,i)=>'<figure class="photo-frame"><img loading="lazy" decoding="async" src="'+PHOTO_ROOT+encodeURI(path)+'" alt="'+escapeHTML(name)+' — '+(i===0?"starting":"finishing")+' position" onerror="this.closest(\'figure\').classList.add(\'failed-photo\')"><figcaption>'+(i===0?"01 · START":"02 · FINISH")+'</figcaption></figure>').join("")+'</div><p class="photo-credit">Exercise photographs: <a href="https://github.com/yuhonas/free-exercise-db" target="_blank" rel="noopener noreferrer">Free Exercise DB / Everkinetic</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>. Display cropped to fit; no other alterations. Source exercise: '+escapeHTML(record.name)+'.</p>';
+ return '<div class="photo-grid">'+frames.map((path,i)=>'<figure class="photo-frame"><img loading="lazy" decoding="async" src="'+PHOTO_ROOT+encodeURI(path)+'" alt="'+escapeHTML(name)+' — '+(i===0?"starting":"finishing")+' position" onerror="this.closest(\'figure\').classList.add(\'failed-photo\')"><figcaption>'+(i===0?"01 · START":"02 · FINISH")+'</figcaption></figure>').join("")+'</div><p class="photo-credit">Exercise photographs: <a href="https://github.com/yuhonas/free-exercise-db" target="_blank" rel="noopener noreferrer">Free Exercise DB / Everkinetic</a>. Display cropped to fit; no other alterations. Source exercise: '+escapeHTML(record.name)+'.</p>';
 }
 async function loadPhotoDB(){
  try{
@@ -346,5 +346,5 @@ loadPhotoDB();
 const oldGuidePhotos=guideView;
 guideView=function(){oldGuidePhotos();if(PHOTO_RECORDS||PHOTO_STATUS==="error")showDetail()};
 const oldBackupPhotos=backupView;
-backupView=function(){oldBackupPhotos();$("#app").insertAdjacentHTML("beforeend",'<div class="card"><h3>Exercise photography credits</h3><p class="subtle">Photographs supplied by Free Exercise DB / Everkinetic under Creative Commons Attribution-ShareAlike 4.0, where matched to the exercise. Images are displayed as supplied, cropped for layout. <a href="https://github.com/yuhonas/free-exercise-db" target="_blank" rel="noopener">Source</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">License</a>.</p></div>')};
+backupView=function(){oldBackupPhotos();$("#app").insertAdjacentHTML("beforeend",'<div class="card"><h3>Exercise photography credits</h3><p class="subtle">Photographs supplied by Free Exercise DB / Everkinetic from the open Free Exercise DB dataset, where matched to the exercise. Images are displayed as supplied, cropped for layout. <a href="https://github.com/yuhonas/free-exercise-db" target="_blank" rel="noopener">Source</a>.</p></div>')};
 render();
