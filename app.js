@@ -262,3 +262,89 @@ function coverageSummary(){
 const trainBeforeCoverage=trainView;
 trainView=function(){trainBeforeCoverage();const first=$("#app .section-title");if(first)first.insertAdjacentHTML("beforebegin",coverageSummary())};
 newDraft();render();
+
+/* Strength Lab 3.2 — photographic exercise guide library */
+const PHOTO_DB_URL="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/dist/exercises.json";
+const PHOTO_ROOT="https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/";
+const PHOTO_ALIASES={
+"Flat dumbbell bench press":"Dumbbell Bench Press",
+"Dumbbell bench press":"Dumbbell Bench Press",
+"Incline dumbbell press":"Incline Dumbbell Press",
+"Dumbbell incline press":"Incline Dumbbell Press",
+"Lat pulldown":"Wide-Grip Lat Pulldown",
+"Seated cable row":"Seated Cable Rows",
+"Chest-supported row":"Dumbbell Incline Row",
+"Chest-supported dumbbell row":"Dumbbell Incline Row",
+"One-arm dumbbell row":"One-Arm Dumbbell Row",
+"Dumbbell lateral raise":"Side Lateral Raise",
+"Triceps pressdown":"Triceps Pushdown",
+"Overhead triceps extension":"Standing Dumbbell Triceps Extension",
+"Dumbbell biceps curl":"Dumbbell Bicep Curl",
+"Incline dumbbell curl":"Incline Dumbbell Curl",
+"Hammer curl":"Hammer Curls",
+"Preacher curl":"Preacher Curl",
+"Hack squat":"Hack Squat",
+"Romanian deadlift":"Romanian Deadlift",
+"Dumbbell Romanian deadlift":"Dumbbell Romanian Deadlift",
+"Seated leg curl":"Seated Leg Curl",
+"Lying leg curl":"Lying Leg Curls",
+"Leg extension":"Leg Extensions",
+"Standing calf raise":"Standing Calf Raises",
+"Seated calf raise":"Seated Calf Raise",
+"Cable crunch":"Cable Crunch",
+"Machine shoulder press":"Machine Shoulder (Military) Press",
+"Dumbbell shoulder press":"Dumbbell Shoulder Press",
+"Cable fly":"Cable Crossover",
+"Reverse pec deck":"Reverse Machine Flyes",
+"Leg press":"Leg Press",
+"Hip thrust":"Barbell Hip Thrust",
+"Bulgarian split squat":"Split Squat with Dumbbells",
+"Goblet squat":"Goblet Squat",
+"Hanging knee raise":"Hanging Leg Raise",
+"Plank":"Plank",
+"Straight-arm cable pulldown":"Straight-Arm Pulldown",
+"Hip abduction machine":"Thigh Abductor",
+"Hip adduction machine":"Thigh Adductor"
+};
+const PHOTO_EQUIPMENT={
+"Flat dumbbell bench press":"dumbbell","Dumbbell bench press":"dumbbell","Incline dumbbell press":"dumbbell","Dumbbell incline press":"dumbbell",
+"Seated cable row":"cable","One-arm dumbbell row":"dumbbell","Chest-supported dumbbell row":"dumbbell",
+"Romanian deadlift":"barbell","Dumbbell Romanian deadlift":"dumbbell","Lat pulldown":"cable",
+"Hammer curl":"dumbbell","Incline dumbbell curl":"dumbbell","Dumbbell biceps curl":"dumbbell",
+"Triceps pressdown":"cable","Cable fly":"cable","Straight-arm cable pulldown":"cable"
+};
+let PHOTO_RECORDS=null,PHOTO_STATUS="loading";
+function photoFor(name){
+ if(!PHOTO_RECORDS)return null;
+ const wanted=PHOTO_ALIASES[name]||name;
+ const normalize=x=>String(x||"").toLowerCase().replace(/[^a-z0-9]/g,"");
+ const record=PHOTO_RECORDS.find(x=>normalize(x.name)===normalize(wanted));
+ if(!record||!Array.isArray(record.images)||record.images.length===0)return null;
+ const eq=PHOTO_EQUIPMENT[name];
+ if(eq&&normalize(record.equipment)!==normalize(eq))return null;
+ return record;
+}
+function visual(name){
+ const record=photoFor(name);
+ if(!record){
+  return '<div class="photo-unavailable"><span class="photo-mark">◎</span><strong>'+(PHOTO_STATUS==="loading"?"Loading exercise photographs…":"Exact exercise photograph unavailable")+'</strong><p>'+(PHOTO_STATUS==="error"?"Check your internet connection to load exercise photography.":"We only show photographs for a matched exercise and equipment variation.")+'</p></div>';
+ }
+ const frames=record.images.slice(0,2);
+ return '<div class="photo-grid">'+frames.map((path,i)=>'<figure class="photo-frame"><img loading="lazy" decoding="async" src="'+PHOTO_ROOT+encodeURI(path)+'" alt="'+escapeHTML(name)+' — '+(i===0?"starting":"finishing")+' position" onerror="this.closest(\'figure\').classList.add(\'failed-photo\')"><figcaption>'+(i===0?"01 · START":"02 · FINISH")+'</figcaption></figure>').join("")+'</div><p class="photo-credit">Exercise photographs: <a href="https://github.com/yuhonas/free-exercise-db" target="_blank" rel="noopener noreferrer">Free Exercise DB / Everkinetic</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>. Display cropped to fit; no other alterations. Source exercise: '+escapeHTML(record.name)+'.</p>';
+}
+async function loadPhotoDB(){
+ try{
+  const response=await fetch(PHOTO_DB_URL,{cache:"force-cache"});
+  if(!response.ok)throw new Error("Photo library unavailable");
+  const data=await response.json();
+  if(!Array.isArray(data))throw new Error("Invalid photo library");
+  PHOTO_RECORDS=data;PHOTO_STATUS="ready";
+ }catch(error){PHOTO_STATUS="error"}
+ if(page==="guide"&&document.querySelector("#exerciseDetail"))showDetail();
+}
+loadPhotoDB();
+const oldGuidePhotos=guideView;
+guideView=function(){oldGuidePhotos();if(PHOTO_RECORDS||PHOTO_STATUS==="error")showDetail()};
+const oldBackupPhotos=backupView;
+backupView=function(){oldBackupPhotos();$("#app").insertAdjacentHTML("beforeend",'<div class="card"><h3>Exercise photography credits</h3><p class="subtle">Photographs supplied by Free Exercise DB / Everkinetic under Creative Commons Attribution-ShareAlike 4.0, where matched to the exercise. Images are displayed as supplied, cropped for layout. <a href="https://github.com/yuhonas/free-exercise-db" target="_blank" rel="noopener">Source</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">License</a>.</p></div>')};
+render();
