@@ -385,3 +385,95 @@ function realisticMusclePanel(name){
  return anatomicalImage(name)+'<div class="anatomy-list"><div class="legend"><span class="dot red"></span><div><strong>Primary muscles</strong><p>'+escapeHTML(primary.join(" · "))+'</p></div></div><div class="legend"><span class="dot blue"></span><div><strong>Secondary muscles</strong><p>'+escapeHTML(secondary.join(" · ")||"None specifically listed")+'</p></div></div></div><p class="anatomy-source">Anatomical diagrams by <a href="https://wiki.anatome.dev/about" target="_blank" rel="noopener">Anatome</a> (open-source). Colored regions are approximate muscle-group activation, not a measure of intensity.</p>';
 }
 render();
+
+
+/* Strength Lab 3.6 — progressive overload coaching */
+if(!state.progression||typeof state.progression!=="object")state.progression={};
+function repBounds(range){
+ const match=String(range).match(/(\d+)\s*[–-]\s*(\d+)/);
+ return match?{low:Number(match[1]),high:Number(match[2])}:null;
+}
+function liftStep(name,weight){
+ const small=/curl|lateral raise|fly|reverse pec|extension|pressdown|triceps|calf/i.test(name);
+ const machine=/machine|pulldown|leg press|hack squat|cable|pec deck|leg extension|leg curl/i.test(name);
+ const base=small?2.5:machine?5:5;
+ return weight>=150?Math.max(base,10):base;
+}
+function progressionFor(exercise,priorSessions){
+ const {name,range,sets}=exercise,bounds=repBounds(range);
+ const completed=sets.filter(x=>x.done&&Number(x.reps)>0&&Number(x.weight)>=0);
+ if(!completed.length)return null;
+ const weighted=completed.filter(x=>Number(x.weight)>0);
+ const weight=weighted.length?Math.max(...weighted.map(x=>Number(x.weight))):0;
+ const comparable=completed.filter(x=>Math.abs(Number(x.weight)-weight)<0.01);
+ const avgReps=comparable.reduce((a,x)=>a+Number(x.reps),0)/comparable.length;
+ const minReps=Math.min(...comparable.map(x=>Number(x.reps)));
+ const maxRir=Math.max(...comparable.map(x=>Number.isFinite(Number(x.rir))?Number(x.rir):2));
+ const minRir=Math.min(...comparable.map(x=>Number.isFinite(Number(x.rir))?Number(x.rir):2));
+ const previous=priorSessions.slice().reverse().flatMap(sess=>sess.exercises||[]).find(x=>x.name===name&&x.sets?.some(y=>y.done));
+ const prevCompleted=previous?.sets?.filter(x=>x.done&&Number(x.reps)>0)||[];
+ const prevAvg=prevCompleted.length?prevCompleted.reduce((a,x)=>a+Number(x.reps),0)/prevCompleted.length:null;
+ const low=bounds?.low??8,high=bounds?.high??12;
+ let targetWeight=weight,targetReps=Math.min(high,Math.max(low,Math.round(avgReps)+1)),reason="",kind="reps";
+ if(weight===0){
+  kind="bodyweight";targetWeight=0;targetReps=Math.min(high,Math.max(low,Math.round(avgReps)+1));
+  reason="Keep bodyweight resistance and add one controlled rep when ready.";
+ }else if(minReps<low-1||minRir===0&&avgReps<low){
+  kind="reduce";targetWeight=Math.max(0,weight-liftStep(name,weight));targetReps=low;
+  reason="At least one working set fell below the target range. A small reduction may restore quality reps.";
+ }else if(comparable.length>=2&&comparable.every(x=>Number(x.reps)>=high&&Number(x.rir)>=1&&Number(x.rir)<=3)){
+  kind="increase";targetWeight=weight+liftStep(name,weight);targetReps=low;
+  reason="All comparable completed sets reached the top of the range with 1–3 reps in reserve.";
+ }else if(minRir===0){
+  kind="hold";targetReps=Math.max(low,Math.round(avgReps));
+  reason="You reached your limit on a set. Keep the load and prioritize control and recovery.";
+ }else if(avgReps>=high){
+  kind="hold";targetReps=high;
+  reason="Rep targets were high, but effort or completed-set evidence was insufficient for a load increase.";
+ }else{
+  kind="reps";
+  reason="Build toward the top of your rep range before adding weight.";
+ }
+ if(prevAvg!==null&&avgReps<prevAvg-2&&kind==="reps"){kind="hold";targetReps=Math.max(low,Math.round(avgReps));reason="Repetitions dropped versus your previous session. Hold the load while you recover."}
+ return {name,kind,weight,targetWeight,targetReps,range,completed:completed.length,reason,avgReps:Math.round(avgReps*10)/10};
+}
+let reviewSession=null,reviewItems=[];
+function progressionReview(session){
+ reviewSession=session;
+ const previous=state.sessions.filter(x=>x.id!==session.id);
+ reviewItems=session.exercises.map(x=>progressionFor(x,previous)).filter(Boolean);
+ page="review";render();window.scrollTo(0,0);
+}
+function reviewView(){
+ const items=reviewItems;
+ $("#app").innerHTML=header("WORKOUT SAVED / NEXT SESSION","Your progression plan.","Recommendations are based on the sets you just completed. Review each suggestion before applying it.")+
+ '<div class="card"><div class="eyebrow">SESSION COMPLETE</div><h3>'+escapeHTML(reviewSession?.program||"Workout")+'</h3><p class="subtle">'+items.length+' exercises reviewed · '+escapeHTML(reviewSession?.date||today())+'</p><p class="subtle">Increase reps before weight. Your form, pain, and recovery take priority over the algorithm.</p></div>'+
+ (items.length?items.map((x,i)=>'<div class="card coaching-card"><div class="coach-top"><h3>'+escapeHTML(x.name)+'</h3><span class="coach-tag '+x.kind+'">'+({increase:"Increase load",reduce:"Reduce load",reps:"Add reps",hold:"Hold steady",bodyweight:"Build reps"}[x.kind])+'</span></div><p class="subtle">'+escapeHTML(x.reason)+'</p><div class="coach-comparison"><div><small>THIS SESSION</small><strong>'+x.weight+' lb</strong><span>'+x.avgReps+' avg reps</span></div><div class="coach-arrow">→</div><div><small>NEXT SESSION</small><strong>'+x.targetWeight+' lb</strong><span>'+x.targetReps+' target reps</span></div></div><div class="coach-inputs"><label>Suggested lb<input type="number" min="0" step="2.5" data-rec="'+i+'" data-rec-field="targetWeight" value="'+x.targetWeight+'"></label><label>Target reps<input type="number" min="1" max="100" data-rec="'+i+'" data-rec-field="targetReps" value="'+x.targetReps+'"></label></div><label class="coach-accept"><input type="checkbox" data-rec-accept="'+i+'" checked> Apply next time</label></div>').join(""):'<div class="card"><p>No completed sets with reps were available for progression recommendations.</p></div>')+
+ '<div class="card"><button class="primary full" id="save-coaching">Save next-session targets</button><button class="coach-skip" id="skip-coaching">Keep current targets</button><p class="subtle">Suggestions are optional. Changes affect future starting targets, not your workout history.</p></div>';
+ document.querySelectorAll("[data-rec-field]").forEach(input=>input.onchange=e=>{const x=reviewItems[Number(e.target.dataset.rec)],field=e.target.dataset.recField;x[field]=Math.max(0,Number(e.target.value)||0)});
+ $("#save-coaching").onclick=()=>{document.querySelectorAll("[data-rec-accept]").forEach(box=>{if(!box.checked)return;const x=reviewItems[Number(box.dataset.recAccept)];state.progression[x.name]={weight:x.targetWeight,reps:x.targetReps,updated:today()}});save();newDraft();page="train";render();window.scrollTo(0,0)};
+ $("#skip-coaching").onclick=()=>{page="train";render();window.scrollTo(0,0)};
+}
+const previousRender36=render;
+render=function(){if(page==="review"){nav();reviewView()}else previousRender36()};
+const previousTrain36=trainView;
+trainView=function(){
+ previousTrain36();
+ const button=$("#finish");
+ if(button)button.onclick=()=>{
+  const done=draft.flatMap(x=>x.sets).filter(x=>x.done);
+  if(!done.length&&!confirm("Save without completed sets?"))return;
+  const session={id:Date.now(),date:today(),program:PROGRAMS[day].name,cardio,exercises:structuredClone(draft)};
+  state.sessions.push(session);save();newDraft();progressionReview(session);
+ };
+};
+const previousNewDraft36=newDraft;
+newDraft=function(){
+ previousNewDraft36();
+ for(const exercise of draft){
+  const rec=state.progression[exercise.name];
+  if(!rec)continue;
+  for(const set of exercise.sets){set.weight=rec.weight;set.reps=rec.reps}
+ }
+};
+render();
