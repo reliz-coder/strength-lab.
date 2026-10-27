@@ -132,8 +132,8 @@ render();
 
 
 /* v2.5 — free licensed RepDB exercise illustrations */
-const REPDB_URL="https://cdn.jsdelivr.net/gh/RepDB/exercise-dataset@main/exercises.json";
-const REPDB_MEDIA="https://cdn.jsdelivr.net/gh/RepDB/exercise-dataset@main/";
+const REPDB_URL="https://exercise-dataset.com/exercises.json";
+const REPDB_MEDIA="https://exercise-dataset.com/";
 let repdbRecords=null,repdbStatus="loading";
 const EXERCISE_ALIASES={
 "Flat dumbbell bench press":["dumbbell bench press","flat dumbbell bench press"],
