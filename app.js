@@ -348,3 +348,21 @@ guideView=function(){oldGuidePhotos();if(PHOTO_RECORDS||PHOTO_STATUS==="error")s
 const oldBackupPhotos=backupView;
 backupView=function(){oldBackupPhotos();$("#app").insertAdjacentHTML("beforeend",'<div class="card"><h3>Exercise photography credits</h3><p class="subtle">Photographs supplied by Free Exercise DB / Everkinetic from the open Free Exercise DB dataset, where matched to the exercise. Images are displayed as supplied, cropped for layout. <a href="https://github.com/yuhonas/free-exercise-db" target="_blank" rel="noopener">Source</a>.</p></div>')};
 render();
+
+/* Strength Lab 3.3 — remove schematic anatomy artwork everywhere */
+function realisticMusclePanel(name){
+ const record=photoFor(name),[primary,secondary]=muscleData(name);
+ const image=record&&record.images&&record.images.length?'<img class="muscle-photo" loading="lazy" src="'+PHOTO_ROOT+encodeURI(record.images[0])+'" alt="Real photographic reference of '+escapeHTML(name)+'" onerror="this.style.display=\'none\'">':'<div class="muscle-photo-missing">Photo reference not available for this exact exercise.</div>';
+ return '<div class="muscle-photo-layout"><div class="muscle-photo-container">'+image+'</div><div class="muscle-legend"><div class="legend"><span class="dot red"></span><div><strong>Primary muscles</strong><p>'+escapeHTML(primary.join(" · "))+'</p></div></div><div class="legend"><span class="dot blue"></span><div><strong>Secondary muscles</strong><p>'+escapeHTML(secondary.join(" · ")||"None specifically listed")+'</p></div></div></div></div><p class="subtle">Photographic movement reference with anatomically named muscle targets. No simulated anatomy highlights.</p>';
+}
+function showDetail(){
+ const name=selectedExercise,detail=EXERCISE_DETAILS[name]||{},[primary,secondary]=muscleData(name),steps=detail.steps||["Set your starting position and brace your trunk.","Move through a comfortable range of motion with control.","Finish the repetition without swinging or using momentum."],errors=detail.mistakes||["Using momentum or excessive load","Losing a stable starting position"];
+ const rx=PROGRAMS.flatMap(p=>p.items).find(x=>x[0]===name),used=PROGRAMS.filter(p=>p.items.some(x=>x[0]===name)).map(p=>p.short);
+ $("#exerciseDetail").innerHTML='<div class="detail"><div class="detail-head"><span class="eyebrow">EXERCISE GUIDE / '+escapeHTML(used.join(" · "))+'</span><h2>'+escapeHTML(name)+'</h2><p class="subtle">'+escapeHTML(detail.desc||"Controlled resistance training movement.")+'</p>'+muscleTags(name)+'</div>'+
+ '<div class="card media-card"><div class="eyebrow">REAL EXERCISE PHOTOGRAPHY</div>'+visual(name)+'</div>'+
+ '<div class="card"><h3>Muscles activated</h3>'+realisticMusclePanel(name)+'</div>'+
+ '<div class="card"><h3>Technique cues</h3>'+steps.map((v,i)=>'<div class="instruction"><span>'+(i+1)+'</span><p>'+escapeHTML(v)+'</p></div>').join("")+'</div>'+
+ '<div class="card warning"><h3>Common mistakes</h3>'+errors.map(v=>'<div class="error"><span>×</span>'+escapeHTML(v)+'</div>').join("")+'</div>'+
+ '<div class="card"><h3>Your prescription</h3><p class="subtle">'+(rx?rx[1]+' working sets · '+escapeHTML(rx[2])+' reps':'Included in your plan')+'</p><p class="subtle">Keep 1–3 reps in reserve on most sets and prioritize stable technique.</p></div></div>';
+}
+render();
