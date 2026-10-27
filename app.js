@@ -153,3 +153,112 @@ function backupView3(){backupViewLegacy();$("#app").insertAdjacentHTML("afterbeg
 const progressViewLegacy=progressView,bodyViewLegacy=bodyView,backupViewLegacy=backupView;
 progressView=progressView3;bodyView=bodyView3;backupView=backupView3;
 render();
+
+
+/* Strength Lab 3.1 — original exercise-specific vector assets and balanced coverage */
+const PROGRAM_ADDITIONS=[
+{day:0,item:["Hammer curl",2,"10–15",25]},
+{day:2,item:["Straight-arm cable pulldown",2,"12–15",35]},
+{day:2,item:["Preacher curl",2,"10–15",20]},
+{day:1,item:["Hip abduction machine",2,"12–20",65]},
+{day:3,item:["Hip adduction machine",2,"12–20",65]}
+];
+for(const add of PROGRAM_ADDITIONS){if(!PROGRAMS[add.day].items.some(x=>x[0]===add.item[0]))PROGRAMS[add.day].items.push(add.item)}
+Object.assign(MUSCLES,{
+"Hammer curl":[["Brachialis","Brachioradialis"],["Biceps"]],
+"Preacher curl":[["Biceps"],["Brachialis","Forearms"]],
+"Straight-arm cable pulldown":[["Latissimus dorsi (lats)"],["Teres major","Triceps (long head)"]],
+"Hip abduction machine":[["Gluteus medius","Gluteus minimus"],["Gluteus maximus"]],
+"Hip adduction machine":[["Hip adductors"],["Gracilis"]]
+});
+EXERCISES.splice(0,EXERCISES.length,...new Set(PROGRAMS.flatMap(p=>p.items.map(x=>x[0]))));
+const ART_VARIANTS={
+"Flat dumbbell bench press":["bench","dumbbells","horizontal press"],
+"Dumbbell bench press":["bench","dumbbells","horizontal press"],
+"Incline dumbbell press":["incline bench","dumbbells","incline press"],
+"Dumbbell incline press":["incline bench","dumbbells","incline press"],
+"Lat pulldown":["pulldown machine","cable bar","vertical pull"],
+"Seated cable row":["seated cable machine","cable handle","horizontal pull"],
+"Chest-supported row":["chest-supported bench","row handles","horizontal pull"],
+"Chest-supported dumbbell row":["incline bench","dumbbells","horizontal pull"],
+"One-arm dumbbell row":["flat bench","one dumbbell","single-arm row"],
+"Dumbbell lateral raise":["standing","dumbbells","lateral raise"],
+"Triceps pressdown":["cable tower","cable bar","elbow extension"],
+"Overhead triceps extension":["standing","dumbbell","overhead extension"],
+"Dumbbell biceps curl":["standing","dumbbells","supinated curl"],
+"Incline dumbbell curl":["incline bench","dumbbells","incline curl"],
+"Hammer curl":["standing","dumbbells","neutral-grip curl"],
+"Preacher curl":["preacher bench","dumbbell","supported curl"],
+"Hack squat":["hack squat sled","sled","squat"],
+"Romanian deadlift":["standing","barbell","hip hinge"],
+"Dumbbell Romanian deadlift":["standing","dumbbells","hip hinge"],
+"Seated leg curl":["seated leg curl machine","roller pad","knee flexion"],
+"Lying leg curl":["lying leg curl machine","roller pad","knee flexion"],
+"Leg extension":["leg extension machine","roller pad","knee extension"],
+"Standing calf raise":["standing calf machine","shoulder pads","plantar flexion"],
+"Seated calf raise":["seated calf machine","knee pads","plantar flexion"],
+"Cable crunch":["cable tower","rope","trunk flexion"],
+"Machine shoulder press":["shoulder press machine","handles","vertical press"],
+"Dumbbell shoulder press":["seated bench","dumbbells","vertical press"],
+"Cable fly":["cable crossover","cable handles","chest fly"],
+"Reverse pec deck":["reverse pec deck machine","handles","rear delt fly"],
+"Leg press":["leg press sled","foot platform","leg press"],
+"Hip thrust":["bench","barbell","hip extension"],
+"Dumbbell hip thrust":["bench","dumbbell","hip extension"],
+"Bulgarian split squat":["rear-foot bench","dumbbells","split squat"],
+"Dumbbell split squat":["standing","dumbbells","split squat"],
+"Goblet squat":["standing","single dumbbell","squat"],
+"Hanging knee raise":["pull-up station","bodyweight","knee raise"],
+"Plank":["floor","bodyweight","isometric core"],
+"Dead bug":["floor","bodyweight","alternating core"],
+"Straight-arm cable pulldown":["cable tower","straight bar","shoulder extension"],
+"Hip abduction machine":["seated hip machine","outer thigh pads","hip abduction"],
+"Hip adduction machine":["seated hip machine","inner thigh pads","hip adduction"]
+};
+function exerciseArtwork(name){
+ const [station,equipment,motion]=ART_VARIANTS[name]||["gym station","resistance","controlled movement"];
+ const isBench=/bench|seated|lying|floor|sled|leg press|machine/.test(station);
+ const isHinge=/hinge|row|pulldown/.test(motion);
+ const isSquat=/squat|leg press|knee flexion|knee extension/.test(motion);
+ const isArms=/curl|extension|raise|fly|press/.test(motion);
+ const body=(phase)=>{
+   const top=phase?16:0,lean=isHinge?22:0,knee=isSquat?(phase?27:11):0;
+   return '<g transform="translate('+(phase?242:68)+' 18) rotate('+(lean?12:0)+' 85 130)">'+
+   '<ellipse cx="86" cy="41" rx="18" ry="23" fill="#d5a58b" stroke="#f1c4a5" stroke-width="2"/>'+
+   '<path d="M66 69 Q86 60 107 69 L121 145 Q86 163 52 145 Z" fill="#2c78ad" stroke="#82c4ed" stroke-width="3"/>'+
+   '<path d="M59 78 Q44 91 '+(phase?'35 126':'48 122')+' L'+(phase?'37':'53')+' 154" fill="none" stroke="#d5a58b" stroke-width="15" stroke-linecap="round"/>'+
+   '<path d="M111 78 Q129 91 '+(phase?'139 120':'125 122')+' L'+(phase?'141':'121')+' 153" fill="none" stroke="#d5a58b" stroke-width="15" stroke-linecap="round"/>'+
+   '<path d="M60 149 L'+(72+knee)+' 200 L'+(58+knee)+' 257" fill="none" stroke="#252e42" stroke-width="22" stroke-linecap="round"/>'+
+   '<path d="M109 149 L'+(110-knee)+' 200 L'+(125-knee)+' 257" fill="none" stroke="#252e42" stroke-width="22" stroke-linecap="round"/>'+
+   '<path d="M'+(44+knee)+' 259h34 M'+(110-knee)+' 259h34" stroke="#9bb5c9" stroke-width="13" stroke-linecap="round"/>'+
+   (equipment.includes("dumbbell")?'<g fill="#b7c4d0"><rect x="29" y="'+(phase?139:151)+'" width="22" height="16" rx="3"/><rect x="131" y="'+(phase?139:151)+'" width="22" height="16" rx="3"/></g>':equipment.includes("bar")?'<path d="M25 '+(phase?127:151)+'h131" stroke="#a7b6c7" stroke-width="8"/>':'')+'</g>';
+ };
+ return '<svg class="art-svg" viewBox="0 0 420 310" role="img" aria-label="Original conceptual illustration for '+escapeHTML(name)+', start and finish positions. Not a verified form demonstration"><defs><linearGradient id="artbg" x2="1" y2="1"><stop stop-color="#172b3d"/><stop offset="1" stop-color="#0b121c"/></linearGradient></defs><rect width="420" height="310" rx="17" fill="url(#artbg)"/><path d="M210 12v284" stroke="#36465a" stroke-dasharray="5 7"/><path d="M15 283h390" stroke="#536b80" stroke-width="2"/>'+
+ (isBench?'<g stroke="#74889a" stroke-width="7"><path d="M60 171h125 M263 171h125"/><path d="M77 171v104 M167 171v104 M281 171v104 M370 171v104"/></g>':'')+
+ body(false)+body(true)+
+ '<g fill="#dce8f6" font-size="12" font-family="Arial,sans-serif" font-weight="bold"><text x="18" y="24">START</text><text x="228" y="24">FINISH</text></g><g fill="#91b6d3" font-size="11" font-family="Arial,sans-serif"><text x="18" y="301">'+escapeHTML(equipment)+'</text><text x="228" y="301">'+escapeHTML(motion)+'</text></g></svg>';
+}
+function anatomyArtwork(name){
+ const all=muscleData(name)[0].join(" ").toLowerCase();
+ const region=/chest|pec/.test(all)?"chest":/lat|back|rhomboid|trap/.test(all)?"back":/bicep|brachialis|brachioradialis/.test(all)?"arms":/tricep/.test(all)?"arms":/deltoid/.test(all)?"shoulders":/hamstring|glute|hip/.test(all)?"posterior":/quadricep/.test(all)?"legs":/calf|soleus/.test(all)?"calves":"core";
+ const patches={chest:'<path d="M54 83Q76 65 90 84V112Q68 122 51 108Z M94 84Q111 65 134 83L137 108Q117 122 94 112Z"/>',back:'<path d="M53 85Q74 75 91 99L91 168Q54 156 47 105Z M95 99Q112 75 135 85L141 105Q133 156 95 168Z"/>',arms:'<ellipse cx="38" cy="116" rx="12" ry="30"/><ellipse cx="148" cy="116" rx="12" ry="30"/>',shoulders:'<ellipse cx="48" cy="85" rx="17" ry="19"/><ellipse cx="138" cy="85" rx="17" ry="19"/>',posterior:'<ellipse cx="73" cy="179" rx="20" ry="20"/><ellipse cx="113" cy="179" rx="20" ry="20"/><path d="M59 202h27v65H57Z M101 202h27v65h-27Z"/>',legs:'<path d="M55 199h33v70H55Z M100 199h33v70h-33Z"/>',calves:'<path d="M58 267h27v34H58Z M103 267h27v34h-27Z"/>',core:'<rect x="67" y="113" width="52" height="58" rx="12"/>'};
+ return '<svg class="anatomy-svg" viewBox="0 0 190 320" role="img" aria-label="Simplified muscle-region map highlighting '+escapeHTML(muscleData(name)[0].join(", "))+'"><g fill="#748191" stroke="#c1ccd6" stroke-width="2"><ellipse cx="93" cy="35" rx="24" ry="30"/><path d="M67 68Q45 69 33 93L48 164L56 199L52 288L73 311L90 212L96 212L114 311L135 288L130 199L140 164L154 93Q141 69 119 68Z"/><path d="M37 95L21 167L36 179L55 123 M149 95L169 167L153 179L131 123" stroke-width="17" stroke-linecap="round"/></g><g fill="#ff6b61" stroke="#ff9d8b" stroke-width="1.5">'+patches[region]+'</g><path d="M93 69v141" stroke="#c7d0da" opacity=".4" stroke-width="2"/></svg>';
+}
+function visual(name,compact=false){return '<div class="artwork">'+exerciseArtwork(name)+'</div><p class="art-disclaimer">Original conceptual illustration · '+escapeHTML(name)+' · Positions are illustrative, not verified coaching frames.</p>'}
+function showDetail(){
+ const name=selectedExercise,detail=EXERCISE_DETAILS[name]||{},[primary,secondary]=muscleData(name),steps=detail.steps||["Set your starting position and brace your trunk.","Move through a comfortable range of motion with control.","Finish the repetition without swinging or using momentum."],errors=detail.mistakes||["Using momentum or excessive load","Losing a stable starting position"];
+ const rx=PROGRAMS.flatMap(p=>p.items).find(x=>x[0]===name),used=PROGRAMS.filter(p=>p.items.some(x=>x[0]===name)).map(p=>p.short);
+ $("#exerciseDetail").innerHTML='<div class="detail"><div class="detail-head"><span class="eyebrow">EXERCISE GUIDE / '+escapeHTML(used.join(" · "))+'</span><h2>'+escapeHTML(name)+'</h2><p class="subtle">'+escapeHTML(detail.desc||"Controlled resistance training movement.")+'</p>'+muscleTags(name)+'</div>'+
+ '<div class="card media-card"><div class="eyebrow">ORIGINAL EXERCISE VISUAL</div>'+visual(name)+'</div>'+
+ '<div class="card"><h3>Muscles activated</h3><div class="muscle-visual"><div class="anatomy-wrap">'+anatomyArtwork(name)+'</div><div class="muscle-legend"><div class="legend"><span class="dot red"></span><div><strong>Primary</strong><p>'+escapeHTML(primary.join(" · "))+'</p></div></div><div class="legend"><span class="dot blue"></span><div><strong>Secondary</strong><p>'+escapeHTML(secondary.join(" · ")||"None specifically listed")+'</p></div></div></div></div><p class="subtle">Simplified regional highlighting; muscle recruitment varies with technique and anatomy.</p></div>'+
+ '<div class="card"><h3>Technique cues</h3>'+steps.map((v,i)=>'<div class="instruction"><span>'+(i+1)+'</span><p>'+escapeHTML(v)+'</p></div>').join("")+'</div>'+
+ '<div class="card warning"><h3>Common mistakes</h3>'+errors.map(v=>'<div class="error"><span>×</span>'+escapeHTML(v)+'</div>').join("")+'</div>'+
+ '<div class="card"><h3>Your prescription</h3><p class="subtle">'+(rx?rx[1]+' working sets · '+escapeHTML(rx[2])+' reps':'Included in your plan')+'</p><p class="subtle">Keep 1–3 reps in reserve on most sets and prioritize stable technique.</p></div></div>';
+}
+function coverageSummary(){
+ const groups=["Chest","Back","Shoulders","Arms","Legs","Core"];
+ return '<div class="card"><h3>Weekly muscle coverage</h3><p class="subtle">Your program trains all major regions. Three exercise variations are not a scientific requirement for complete muscle development.</p><div class="coverage-grid">'+groups.map(group=>{const lifts=PROGRAMS.slice(0,4).flatMap(p=>p.items).filter(x=>category(x[0])===group);return '<div class="coverage-cell"><b>'+group+'</b><span>'+lifts.reduce((n,x)=>n+x[1],0)+' sets/wk</span></div>'}).join("")+'</div><p class="subtle">Back: vertical pull, horizontal row, shoulder extension. Biceps and elbow flexors: supinated, incline, neutral-grip and supported curls. Review recovery and progress before adding more sets.</p></div>';
+}
+const trainBeforeCoverage=trainView;
+trainView=function(){trainBeforeCoverage();const first=$("#app .section-title");if(first)first.insertAdjacentHTML("beforebegin",coverageSummary())};
+newDraft();render();
