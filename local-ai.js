@@ -1,9 +1,38 @@
-/* Strength Lab 3.7 local AI coach */
-(()=>{const MODEL="Qwen2.5-0.5B-Instruct-q4f16_1-MLC";let engine=null,busy=false,status="";
-function updateStatus(s){status=s;const el=document.getElementById("ai-progress");if(el)el.textContent=s}
-function historyFor(name){return state.sessions.slice(-14).map(s=>{const x=(s.exercises||[]).find(e=>e.name===name);return x?{date:s.date,sets:(x.sets||[]).filter(t=>t.done).map(t=>({weight:t.weight,reps:t.reps,rir:t.rir}))}:null}).filter(Boolean).slice(-6)}
-async function run(){if(busy)return;const btn=document.getElementById("ai-start");if(!navigator.gpu){updateStatus("This browser does not support WebGPU. Your standard progression plan is still available.");return}busy=true;btn.disabled=true;btn.textContent="Loading local AI…";updateStatus("Preparing the on-device model. First use downloads a large file; keep this page open on Wi-Fi.");
-try{const lib=await import("https://esm.run/@mlc-ai/web-llm@0.2.86");if(!engine){const models=lib.prebuiltAppConfig.model_list;const choice=models.find(x=>x.model_id===MODEL)||models.find(x=>/Qwen2.*0\.5B.*q4f16/i.test(x.model_id));if(!choice)throw Error("No compatible lightweight model found");engine=await lib.CreateMLCEngine(choice.model_id,{initProgressCallback:p=>updateStatus("Loading model: "+(p.text||Math.round((p.progress||0)*100)+"%"))})}
-for(let i=0;i<reviewItems.length;i++){const item=reviewItems[i];updateStatus("Analyzing "+(i+1)+" of "+reviewItems.length+": "+item.name);const response=await engine.chat.completions.create({messages:[{role:"system",content:"You are a conservative strength coach. Explain the numeric next-session targets supplied by the progression guardrails. Never change numbers or invent trends. Use 1-2 short sentences, maximum 45 words. You cannot assess technique, pain or recovery."},{role:"user",content:JSON.stringify({exercise:item.name,repRange:item.range,latestWeight:item.weight,latestAverageReps:item.avgReps,recentSessions:historyFor(item.name),guardrailNextWeight:item.targetWeight,guardrailNextReps:item.targetReps,guardrailReason:item.reason})}],temperature:0.2,max_tokens:100});const explanation=String(response.choices?.[0]?.message?.content||"").trim();if(explanation&&explanation.length<500){item.reason=explanation;const p=document.querySelectorAll(".coaching-card")[i]?.querySelector("p.subtle");if(p)p.textContent=explanation}}
-updateStatus("AI review complete. Analysis stayed on your device; your safe progression targets are unchanged.");btn.textContent="Run AI review again"}catch(e){updateStatus("Local AI unavailable: "+String(e?.message||e).slice(0,150)+". Standard progression still works.");btn.textContent="Retry local AI"}finally{busy=false;btn.disabled=false}}
-const old=reviewView;reviewView=function(){old();const first=document.querySelector("#app .card");if(!first)return;const box=document.createElement("section");box.className="card";box.innerHTML='<div class="eyebrow">PRIVATE · ON-DEVICE AI</div><h3>AI Progression Coach</h3><p class="subtle">Download a compact AI model to analyze recent training trends and explain your next-session targets. No subscription or API key. Requires WebGPU, available storage and an initial download. Weight and rep safety rules remain in place.</p><button class="primary full" id="ai-start" type="button">Download & run local AI</button><p class="subtle" id="ai-progress" role="status" aria-live="polite"></p>';first.after(box);box.querySelector("#ai-start").onclick=run;box.querySelector("#ai-progress").textContent=status};render()})();
+/* Strength Lab 3.8 — ChatGPT handoff, no API key or subscription required */
+(()=>{"use strict";
+function promptForReview(){
+ const session=reviewSession;
+ const prior=state.sessions.filter(x=>x.id!==session?.id).slice(-12);
+ const exercises=reviewItems.map(item=>{
+  const logged=(session?.exercises||[]).find(x=>x.name===item.name);
+  const history=prior.map(s=>{const ex=(s.exercises||[]).find(x=>x.name===item.name);return ex?{date:s.date,sets:(ex.sets||[]).filter(t=>t.done).map(t=>({lb:Number(t.weight),reps:Number(t.reps),rir:Number(t.rir)}))}:null}).filter(Boolean).slice(-4);
+  return {exercise:item.name,repRange:item.range,completedSets:(logged?.sets||[]).filter(t=>t.done).map(t=>({lb:Number(t.weight),reps:Number(t.reps),rir:Number(t.rir)})),recentHistory:history,currentAppRecommendation:{weightLb:item.targetWeight,targetReps:item.targetReps,reason:item.reason}};
+ });
+ return "Act as my evidence-based strength-training coach. Review the workout data below and recommend the next session's weight (lb) and target reps for each exercise. Use double progression, RIR and recent trends. Explain your reasoning concisely; flag plateaus, fatigue signals and missing information. Avoid jumps greater than about 5% for major lifts or the smallest available dumbbell increment unless justified. Do not assume you can assess my technique, pain or recovery from logs. Present a compact table with exercise, next weight, target reps, and rationale. These are recommendations for me to approve, not automatic changes to my workout log.\\n\\n"+JSON.stringify({workout:session?.program,date:session?.date,exercises},null,2);
+}
+async function handoff(){
+ const prompt=promptForReview();
+ const status=document.getElementById("ai-progress");
+ const button=document.getElementById("ai-chatgpt");
+ try{
+  if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(prompt)}
+  else{const el=document.createElement("textarea");el.value=prompt;el.style.position="fixed";el.style.opacity="0";document.body.append(el);el.select();if(!document.execCommand("copy"))throw Error("Clipboard unavailable");el.remove()}
+  if(status)status.textContent="Workout summary copied. Open ChatGPT, paste it into a new message, and send. Your app's existing progression suggestions remain available below.";
+  if(button)button.textContent="Copied — open ChatGPT";
+  window.open("https://chatgpt.com/","_blank","noopener,noreferrer");
+ }catch(e){
+  if(status)status.textContent="Clipboard access was blocked. Select and copy the workout summary below, then paste it into ChatGPT.";
+  const area=document.getElementById("ai-manual-prompt");if(area){area.value=prompt;area.hidden=false;area.focus();area.select()}
+ }
+}
+const original=reviewView;
+reviewView=function(){
+ original();
+ const first=document.querySelector("#app .card");if(!first)return;
+ const box=document.createElement("section");box.className="card";
+ box.innerHTML='<div class="eyebrow">CHATGPT · WORKOUT COACH</div><h3>Review with ChatGPT</h3><p class="subtle">Send your completed sets and recent workout trends to ChatGPT for personalized progression recommendations. Nothing is sent until you paste and submit the summary in ChatGPT. Your built-in recommendations remain available below.</p><button type="button" class="primary full" id="ai-chatgpt">Copy workout & open ChatGPT</button><p class="subtle" id="ai-progress" role="status" aria-live="polite">No local AI download or API key needed. ChatGPT may require you to sign in.</p><textarea id="ai-manual-prompt" hidden rows="7" aria-label="Workout summary for ChatGPT"></textarea>';
+ first.after(box);
+ box.querySelector("#ai-chatgpt").onclick=handoff;
+};
+render();
+})();
