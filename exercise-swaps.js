@@ -40,7 +40,7 @@ function groupFor(name){
  if(/leg curl/.test(n))return "hamCurl";
  if(/leg extension/.test(n))return "quadExt";
  if(/lunge|split squat|step.up/.test(n))return "lunge";
- if(/hack squat|leg press|goblet squat|smith machine squat|dumbbell squat/.test(n))return "squat";
+ if(/calf/.test(n))return "calves";\n if(/hack squat|leg press|goblet squat|smith machine squat|dumbbell squat/.test(n))return "squat";
  if(/calf/.test(n))return "calves";
  if(/hip thrust|glute bridge|kickback/.test(n))return "glutes";
  if(/romanian deadlift|pull.through/.test(n))return "hinge";
@@ -54,5 +54,5 @@ const oldTrain=trainView;
 trainView=function(){oldTrain();document.querySelectorAll(".lift-card").forEach((card,i)=>{const ex=draft[i];if(!ex)return;const opts=optionsFor(ex.name);if(!opts)return;const row=document.createElement("div");row.className="swap-row";const id="swap-"+i;const current=ex.name;row.innerHTML='<label for="'+id+'" class="swap-label">SWAP EXERCISE <span>· '+escapeHTML(label[opts.key])+'</span></label><select id="'+id+'" class="swap-select" aria-label="Alternative for '+escapeHTML(ex.name)+'">'+opts.names.map(n=>'<option value="'+escapeHTML(n)+'" '+(n===current?"selected":"")+'>'+escapeHTML(n)+'</option>').join("")+'</select><p class="swap-hint">Choose a cable, machine, or free-weight variation targeting the same primary movement. Weights are not transferable across equipment.</p>';const heading=card.querySelector(".lift-heading");if(heading)heading.after(row);row.querySelector("select").onchange=e=>{const replacement=e.target.value;if(replacement===ex.name)return;swaps[day+":"+i]=replacement;localStorage.setItem(STORAGE,JSON.stringify(swaps));const last=previous(replacement);ex.name=replacement;ex.sets.forEach(set=>{set.weight=last?.weight??0;set.reps=last?.reps??"";set.done=false});render();}};
  });
 };
-render();
+newDraft();render();
 })();
