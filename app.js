@@ -297,10 +297,10 @@ const PHOTO_ALIASES={
 "Cable fly":"Cable Crossover",
 "Reverse pec deck":"Reverse Machine Flyes",
 "Leg press":"Leg Press",
-"Hip thrust":"Barbell Hip Thrust",
-"Bulgarian split squat":"Split Squat with Dumbbells",
+
+
 "Goblet squat":"Goblet Squat",
-"Hanging knee raise":"Hanging Leg Raise",
+
 "Plank":"Plank",
 "Straight-arm cable pulldown":"Straight-Arm Pulldown",
 "Hip abduction machine":"Thigh Abductor",
