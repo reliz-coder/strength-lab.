@@ -40,7 +40,8 @@ function groupFor(name){
  if(/leg curl/.test(n))return "hamCurl";
  if(/leg extension/.test(n))return "quadExt";
  if(/lunge|split squat|step.up/.test(n))return "lunge";
- if(/calf/.test(n))return "calves";\n if(/hack squat|leg press|goblet squat|smith machine squat|dumbbell squat/.test(n))return "squat";
+ if(/calf/.test(n))return "calves";
+ if(/hack squat|leg press|goblet squat|smith machine squat|dumbbell squat/.test(n))return "squat";
  if(/calf/.test(n))return "calves";
  if(/hip thrust|glute bridge|kickback/.test(n))return "glutes";
  if(/romanian deadlift|pull.through/.test(n))return "hinge";
