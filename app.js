@@ -366,3 +366,22 @@ function showDetail(){
  '<div class="card"><h3>Your prescription</h3><p class="subtle">'+(rx?rx[1]+' working sets · '+escapeHTML(rx[2])+' reps':'Included in your plan')+'</p><p class="subtle">Keep 1–3 reps in reserve on most sets and prioritize stable technique.</p></div></div>';
 }
 render();
+
+/* Strength Lab 3.4 — detailed anatomical muscle atlas with primary/secondary highlighting */
+const ANATOMY_MUSCLE_MAP=[
+[/chest|pectoral|pecs/i,"chest"],[/latissimus|\blats\b/i,"lats"],[/rhomboid|mid.back|upper.back/i,"upper_back"],[/trapezius|\btraps\b/i,"traps"],[/rear deltoid|posterior deltoid/i,"deltoids"],[/front deltoid|side deltoid|deltoid|shoulder/i,"deltoids"],[/biceps|brachialis/i,"biceps"],[/brachioradialis|forearm/i,"forearms"],[/triceps/i,"triceps"],[/quadriceps|\bquads\b/i,"quadriceps"],[/hamstring/i,"hamstrings"],[/glute/i,"gluteal"],[/calf|gastrocnemius|soleus/i,"calves"],[/adductor|gracilis/i,"adductors"],[/abductor/i,"abductors"],[/abdominal|oblique|\babs\b|core/i,"abs"],[/erector|lower back/i,"lower_back"]
+];
+function anatomySlug(label){for(const [pattern,slug] of ANATOMY_MUSCLE_MAP){if(pattern.test(label))return slug}return null}
+function anatomicalImage(name){
+ const [primary,secondary]=muscleData(name);
+ const p=[...new Set(primary.map(anatomySlug).filter(Boolean))];
+ const q=[...new Set(secondary.map(anatomySlug).filter(Boolean))].filter(x=>!p.includes(x));
+ const layers=[...p.map(x=>"F45B59:"+x),...q.map(x=>"428FFF:"+x)].join("|");
+ const url="https://api.anatome.dev/generateImage?gender=male&view=dual&layers="+encodeURIComponent(layers)+"&output=raw";
+ return '<div class="anatomical-image-wrap"><img loading="lazy" class="anatomical-image" src="'+url+'" alt="Detailed anterior and posterior anatomical illustration highlighting primary and secondary muscles for '+escapeHTML(name)+'" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><div hidden class="anatomy-fallback">Anatomical image temporarily unavailable. Muscle labels remain below.</div></div><div class="anatomy-key"><span><i class="dot red"></i> Primary</span><span><i class="dot blue"></i> Secondary</span></div>';
+}
+function realisticMusclePanel(name){
+ const [primary,secondary]=muscleData(name);
+ return anatomicalImage(name)+'<div class="anatomy-list"><div class="legend"><span class="dot red"></span><div><strong>Primary muscles</strong><p>'+escapeHTML(primary.join(" · "))+'</p></div></div><div class="legend"><span class="dot blue"></span><div><strong>Secondary muscles</strong><p>'+escapeHTML(secondary.join(" · ")||"None specifically listed")+'</p></div></div></div><p class="anatomy-source">Anatomical diagrams by <a href="https://wiki.anatome.dev/about" target="_blank" rel="noopener">Anatome</a> (open-source). Colored regions are approximate muscle-group activation, not a measure of intensity.</p>';
+}
+render();
