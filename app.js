@@ -62,3 +62,56 @@ guideView=function(){const names=[...new Set(PROGRAMS.flatMap(p=>p.items.map(x=>
 const oldProgressView=progressView;
 progressView=function(){oldProgressView();const all=[...new Set(PROGRAMS.flatMap(p=>p.items.map(x=>x[0])))];const card=document.createElement("div");card.className="card";card.innerHTML='<h2>Weight progression by exercise</h2><p class="note">Historical working weight for completed sets. Each point is the heaviest completed set in that workout. For dumbbells, lb is per hand.</p><label>Choose exercise</label><select id="historyPick" style="width:100%">'+all.map(n=>'<option>'+escapeHTML(n)+'</option>').join("")+'</select><div id="historyChart"></div><div id="historyRows"></div>';$("#app").insertBefore(card,$("#app").children[1]);const pick=$("#historyPick");const show=()=>{const points=state.sessions.flatMap(s=>s.exercises.filter(x=>x.name===pick.value).map(x=>{const sets=x.sets.filter(t=>t.done&&Number(t.weight)>0);if(!sets.length)return null;const max=Math.max(...sets.map(t=>Number(t.weight)));const top=sets.filter(t=>Number(t.weight)===max).sort((a,b)=>Number(b.reps)-Number(a.reps))[0];return {date:s.date,weight:max,reps:top.reps,rir:top.rir}})).filter(Boolean).sort((a,b)=>a.date.localeCompare(b.date));const first=points[0],last=points[points.length-1];$("#historyChart").innerHTML=points.length?lineChart(points.map(x=>x.weight))+'<div class="grid two"><div><div class="tag">First recorded</div><h2>'+first.weight+' lb</h2></div><div><div class="tag">Latest recorded</div><h2>'+last.weight+' lb</h2></div></div><p class="note">Change: '+(last.weight-first.weight>=0?"+":"")+(last.weight-first.weight).toFixed(1)+' lb across '+points.length+' logged sessions.</p>':'<p class="note">No completed sets recorded for this exercise yet.</p>';$("#historyRows").innerHTML=points.slice().reverse().map(x=>'<div class="set row"><span>'+x.date+'</span><b>'+x.weight+' lb × '+x.reps+' reps</b><span class="muted">RIR '+x.rir+'</span></div>').join("")};pick.onchange=show;show()};
 render();
+
+
+/* v2.2 muscle coverage and exercise-specific demonstration links */
+const MUSCLES={
+"Flat dumbbell bench press":[["Chest (pectorals)"],["Triceps","Front deltoids"]],
+"Lat pulldown":[["Latissimus dorsi (lats)"],["Biceps","Mid-back","Rear deltoids"]],
+"Incline dumbbell press":[["Upper chest (clavicular pecs)"],["Front deltoids","Triceps"]],
+"Seated cable row":[["Mid-back (rhomboids, trapezius)","Lats"],["Biceps","Rear deltoids"]],
+"Dumbbell lateral raise":[["Side deltoids"],["Upper trapezius"]],
+"Triceps pressdown":[["Triceps"],[]],
+"Dumbbell biceps curl":[["Biceps"],["Brachialis","Forearms"]],
+"Hack squat":[["Quadriceps"],["Glutes","Adductors"]],
+"Romanian deadlift":[["Hamstrings","Glutes"],["Spinal erectors","Adductors"]],
+"Seated leg curl":[["Hamstrings"],["Calves"]],
+"Leg extension":[["Quadriceps"],[]],
+"Standing calf raise":[["Calves (gastrocnemius)"],["Soleus"]],
+"Cable crunch":[["Abdominals (rectus abdominis)"],["Obliques"]],
+"Chest-supported row":[["Mid-back","Lats"],["Biceps","Rear deltoids"]],
+"Machine shoulder press":[["Front deltoids","Side deltoids"],["Triceps"]],
+"Cable fly":[["Chest (pectorals)"],["Front deltoids"]],
+"Reverse pec deck":[["Rear deltoids"],["Rhomboids","Mid trapezius"]],
+"Incline dumbbell curl":[["Biceps"],["Brachialis"]],
+"Overhead triceps extension":[["Triceps (long head)"],[]],
+"Leg press":[["Quadriceps","Glutes"],["Adductors"]],
+"Hip thrust":[["Glutes"],["Hamstrings"]],
+"Bulgarian split squat":[["Quadriceps","Glutes"],["Adductors","Core"]],
+"Lying leg curl":[["Hamstrings"],["Calves"]],
+"Seated calf raise":[["Calves (soleus)"],["Gastrocnemius"]],
+"Hanging knee raise":[["Abdominals"],["Hip flexors"]],
+"Dumbbell bench press":[["Chest (pectorals)"],["Triceps","Front deltoids"]],
+"One-arm dumbbell row":[["Lats","Mid-back"],["Biceps","Rear deltoids"]],
+"Goblet squat":[["Quadriceps","Glutes"],["Core"]],
+"Dumbbell Romanian deadlift":[["Hamstrings","Glutes"],["Spinal erectors"]],
+"Plank":[["Abdominals","Deep core"],["Glutes","Shoulders"]],
+"Dumbbell incline press":[["Upper chest"],["Front deltoids","Triceps"]],
+"Dumbbell split squat":[["Quadriceps","Glutes"],["Core"]],
+"Chest-supported dumbbell row":[["Mid-back","Lats"],["Biceps","Rear deltoids"]],
+"Dumbbell shoulder press":[["Deltoids"],["Triceps"]],
+"Dumbbell hip thrust":[["Glutes"],["Hamstrings"]],
+"Dead bug":[["Deep core","Abdominals"],["Hip flexors"]]
+};
+const GROUPS=[["Chest",/chest|pectoral/i],["Back",/lat|mid-back|rhomboid|trapezius/i],["Shoulders",/deltoid/i],["Biceps",/biceps|brachialis/i],["Triceps",/triceps/i],["Quads",/quadriceps/i],["Hamstrings",/hamstrings/i],["Glutes",/glutes/i],["Calves",/calves|soleus|gastrocnemius/i],["Core",/abdominals|core|obliques/i]];
+function muscleData(name){return MUSCLES[name]||[["Muscle information pending"],[]]}
+function musclesMarkup(name){const [primary,secondary]=muscleData(name);return '<div class="card"><h2>Muscles worked</h2><div class="tag">Primary movers</div><p>'+primary.map(x=>'<span class="pill" style="margin:3px">'+escapeHTML(x)+'</span>').join("")+'</p><div class="tag">Secondary / assisting</div><p>'+(secondary.length?secondary.map(x=>'<span class="pill" style="margin:3px">'+escapeHTML(x)+'</span>').join(""):'None specifically listed')+'</p><p class="note" style="font-size:12px">Muscle contribution varies with equipment, technique, range of motion and individual anatomy. Secondary muscles are not equivalent to dedicated training volume.</p></div>'}
+function demoMarkup(name){const search="https://www.youtube.com/results?search_query="+encodeURIComponent(name+" exercise proper form demonstration");const verified=name==="Flat dumbbell bench press"?"https://www.muscleandstrength.com/exercises/dumbbell-bench-press.html":null;return '<div class="card"><h2>Watch a demonstration</h2><p class="note">Open real exercise demonstration videos online. Video playback requires internet; your workout logging still works offline.</p>'+(verified?'<p><a href="'+verified+'" target="_blank" rel="noopener noreferrer">Watch verified dumbbell bench press demonstration ↗</a></p>':'')+'<p><a href="'+search+'" target="_blank" rel="noopener noreferrer">Find '+escapeHTML(name)+' demonstration videos on YouTube ↗</a></p><p class="note" style="font-size:12px">Video results are provided by YouTube and are not individually reviewed by Strength Lab. Match the equipment and variation to your prescribed exercise.</p></div>'}
+const previousGuideView=guideView;
+guideView=function(){previousGuideView();const el=document.querySelector("#guideContent");if(!el)return;const selected=document.querySelector("#guidePick");const show=()=>{el.insertAdjacentHTML("beforeend",musclesMarkup(selected.value)+demoMarkup(selected.value))};show();const original=selected.onchange;selected.onchange=()=>{original();show()}};
+function coverage(){const names=PROGRAMS.slice(0,4).flatMap(p=>p.items.map(x=>x[0]));const rows=GROUPS.map(([group,re])=>{const exercises=names.filter(n=>muscleData(n)[0].some(m=>re.test(m)));const sessions=PROGRAMS.slice(0,4).filter(p=>p.items.some(x=>exercises.includes(x[0]))).length;return {group,exercises,sessions}});return '<div class="card"><h2>Weekly muscle coverage</h2><p class="note">Based on your four scheduled gym sessions (not hotel replacements). This counts direct primary-muscle exercises, not exact weekly stimulus or recovery.</p>'+rows.map(x=>'<div class="set"><div class="row"><b>'+x.group+'</b><span class="pill">'+x.sessions+' day'+(x.sessions===1?"":"s")+'</span></div><p class="muted" style="font-size:12px">'+(x.exercises.length?x.exercises.map(escapeHTML).join(" · "):"No primary-target exercise currently programmed")+'</p></div>').join("")+'<p class="note">A muscle appearing once is not necessarily undertrained; evaluate weekly hard sets, recovery and progression. Your plan includes all major listed muscle groups, though some have more direct work than others.</p></div>'}
+const previousTrainView=trainView;
+trainView=function(){previousTrainView();const c=document.createElement("div");c.innerHTML=coverage();$("#app").appendChild(c)};
+const previousGuide2=guideView;
+guideView=function(){previousGuide2();const c=document.createElement("div");c.innerHTML=coverage();$("#app").appendChild(c)};
+render();
