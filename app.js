@@ -136,3 +136,45 @@ function guideView(){
   pick.onchange=show;show();
 }
 render();
+
+/* Strength Lab 2.7 — cohesive exercise detail screens and one-tap entry from workouts */
+const EXERCISE_DETAILS={
+"Flat dumbbell bench press":{desc:"Flat-bench chest press with a dumbbell in each hand.",steps:["Lie on a flat bench with feet planted and shoulder blades gently set.","Lower both dumbbells with wrists stacked over forearms.","Press upward with control; avoid bouncing or losing shoulder position."],mistakes:["Flaring elbows excessively","Bouncing at the bottom","Lifting hips off the bench"]},
+"Lat pulldown":{desc:"Vertical cable pull toward the upper chest.",steps:["Set thigh pads snugly and grasp the bar.","Pull elbows toward your sides while bringing the bar toward upper chest.","Return slowly without shrugging or swinging."],mistakes:["Pulling behind the neck","Leaning back excessively","Using momentum"]},
+"Incline dumbbell press":{desc:"Incline-bench dumbbell chest press.",steps:["Set a moderate incline and plant both feet.","Lower dumbbells with elbows slightly tucked.","Press up without crashing the dumbbells together."],mistakes:["Using a nearly vertical bench","Overarching the lower back","Bouncing at the bottom"]},
+"Hack squat":{desc:"Machine-supported squat using a hack-squat sled.",steps:["Set shoulders beneath pads and position feet securely.","Lower the sled with knees tracking over toes.","Push through the feet without locking knees abruptly."],mistakes:["Lifting heels","Letting knees collapse inward","Descending beyond controllable range"]},
+"Romanian deadlift":{desc:"Hip-hinge movement emphasizing hamstrings and glutes.",steps:["Stand tall with barbell close to thighs.","Push hips backward with soft knees and a braced trunk.","Stand by driving hips forward while keeping the bar close."],mistakes:["Rounding the back","Turning the movement into a squat","Lowering past controlled hip range"]},
+"Bulgarian split squat":{desc:"Rear-foot-elevated single-leg squat.",steps:["Place rear foot on a bench and establish a stable front stance.","Lower under control by bending the front knee and hip.","Press through the front foot to stand."],mistakes:["Front stance too narrow","Bouncing at the bottom","Pushing mostly from rear foot"]}
+};
+function detailedGuide(name){
+ const match=EXERCISE_DETAILS[name]||{}, muscles=muscleData(name), primary=muscles[0]||[], secondary=muscles[1]||[];
+ const sessions=PROGRAMS.filter(p=>p.items.some(x=>x[0]===name)).map(p=>p.short);
+ const exercise=PROGRAMS.flatMap(p=>p.items).find(x=>x[0]===name);
+ const steps=match.steps||cues(name);
+ const mistakes=match.mistakes||["Using momentum instead of a controlled repetition","Choosing more load than you can control"];
+ const media=VERIFIED_MEDIA[name];
+ return '<div class="exercise-hero"><div class="tag">EXERCISE LIBRARY / '+escapeHTML(sessions.join(" · "))+'</div><h2>'+escapeHTML(name)+'</h2><p class="note">'+escapeHTML(match.desc||"Strength-training movement in your current program.")+'</p><div class="muscle-chips">'+primary.map(x=>'<span class="muscle-chip primary">'+escapeHTML(x)+' · Primary</span>').join("")+secondary.map(x=>'<span class="muscle-chip">'+escapeHTML(x)+' · Secondary</span>').join("")+'</div></div>'+
+ '<div class="card exercise-media"><div class="tag">EXERCISE DEMONSTRATION</div>'+(media?'<div class="video-frame"><iframe src="'+escapeHTML(media.embed)+'" title="'+escapeHTML(name)+' demonstration" allowfullscreen loading="lazy"></iframe></div>':'<div class="media-pending"><span class="media-symbol">▣</span><strong>Exact exercise photo and video pending</strong><p class="note">Only a verified demonstration of '+escapeHTML(name)+' will appear here. No stick figures or substitute exercises.</p></div>')+'</div>'+
+ '<div class="card"><div class="row"><h2>Muscles activated</h2><span class="pill">Targeted</span></div><div class="muscle-legend"><span class="muscle-dot primary-dot"></span><div><b>Primary</b><p class="note">'+escapeHTML(primary.join(", ")||"Not classified")+'</p></div></div><div class="muscle-legend"><span class="muscle-dot secondary-dot"></span><div><b>Secondary</b><p class="note">'+escapeHTML(secondary.join(", ")||"Not classified")+'</p></div></div></div>'+
+ '<div class="card"><h2>Technique cues</h2><div class="steps">'+steps.map((x,i)=>'<div class="step"><span class="step-number">'+(i+1)+'</span><span>'+escapeHTML(x)+'</span></div>').join("")+'</div></div>'+
+ '<div class="card mistakes"><h2>Common mistakes</h2>'+mistakes.map(x=>'<div class="mistake"><span>×</span>'+escapeHTML(x)+'</div>').join("")+'</div>'+
+ '<div class="card"><h2>Your training prescription</h2><p class="note">'+(exercise?exercise[1]+' working sets · '+escapeHTML(exercise[2])+' reps':'See your training plan')+'</p><p class="note">Technique comes before load. Keep roughly 1–3 reps in reserve on most working sets.</p></div>';
+}
+guideView=function(){
+ const app=document.querySelector("#app");
+ const chosen=GUIDE_EXERCISES.includes(selectedGuide)?selectedGuide:GUIDE_EXERCISES[0];
+ app.innerHTML='<div class="card exercise-selector"><label for="guidePick">EXERCISE LIBRARY</label><select id="guidePick" style="width:100%">'+GUIDE_EXERCISES.map(n=>'<option value="'+escapeHTML(n)+'" '+(n===chosen?'selected':'')+'>'+escapeHTML(n)+'</option>').join("")+'</select></div><div id="guideContent"></div>';
+ const pick=document.querySelector("#guidePick");
+ function show(){selectedGuide=pick.value;document.querySelector("#guideContent").innerHTML=detailedGuide(pick.value)}
+ pick.onchange=show;show();
+};
+const oldTrain27=trainView;
+trainView=function(){
+ oldTrain27();
+ document.querySelectorAll("#app .card").forEach(card=>{
+   const h=card.querySelector("h2");if(!h||!GUIDE_EXERCISES.includes(h.textContent.trim()))return;
+   const existing=Array.from(card.querySelectorAll("button")).find(b=>/View illustration/.test(b.textContent));
+   if(existing){existing.textContent="View exercise form & muscles";existing.onclick=()=>{selectedGuide=h.textContent.trim();page="guide";render()}}
+ });
+};
+render();
