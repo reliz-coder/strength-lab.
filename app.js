@@ -115,3 +115,13 @@ trainView=function(){previousTrainView();const c=document.createElement("div");c
 const previousGuide2=guideView;
 guideView=function(){previousGuide2();const c=document.createElement("div");c.innerHTML=coverage();$("#app").appendChild(c)};
 render();
+
+/* Strength Lab 2.3: in-app video player and iOS-inspired UI */
+const VIDEO_LIBRARY={
+"Flat dumbbell bench press":{id:"5Y3VZsLb1Ys",title:"Dumbbell bench press — Jack Hanrahan Fitness"},
+"Dumbbell bench press":{id:"5Y3VZsLb1Ys",title:"Dumbbell bench press — Jack Hanrahan Fitness"}
+};
+function embeddedDemo(name){const v=VIDEO_LIBRARY[name];if(!v)return '<div class="video-empty"><div style="font-size:28px">▶</div><b>Exercise video coming soon</b><p class="note">A matching demonstration has not yet been verified for this variation. The technique guide and muscle breakdown remain available offline.</p></div>';return '<div class="video-frame"><iframe title="'+escapeHTML(v.title)+'" loading="lazy" src="https://www.youtube-nocookie.com/embed/'+v.id+'?playsinline=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div><p class="video-credit">'+escapeHTML(v.title)+' · Streaming requires internet</p>'}
+const iosGuideView=guideView;
+guideView=function(){iosGuideView();const select=document.querySelector("#guidePick"),content=document.querySelector("#guideContent");if(!select||!content)return;const refresh=()=>{const old=content.querySelectorAll(".video-panel");old.forEach(n=>n.remove());const panel=document.createElement("section");panel.className="card video-panel";panel.innerHTML='<div class="eyebrow">VIDEO COACH</div><h2>Watch the movement</h2>'+embeddedDemo(select.value);content.prepend(panel);const links=content.querySelectorAll('a[href*="youtube.com/results"]');links.forEach(a=>a.closest("p")?.remove())};refresh();const oldChange=select.onchange;select.onchange=()=>{oldChange?.();refresh()}};
+render();
