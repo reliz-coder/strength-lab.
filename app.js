@@ -27,7 +27,7 @@ function backupView(){$("#app").innerHTML='<div class="card"><h2>Your data stays
 newDraft();render();if("serviceWorker" in navigator)navigator.serviceWorker.register("./sw.js").catch(()=>{});
 
 
-/* Strength Lab v2: exercise illustrations, coaching notes, glossary, historical progress */
+
 const GLOSSARY=[
 ["RIR","Reps in reserve: how many more good-form repetitions you estimate you could complete before failure."],
 ["Hypertrophy","An increase in muscle size resulting from training and recovery."],
@@ -47,24 +47,7 @@ const GLOSSARY=[
 ["Double progression","First increase reps within a target range; once you reach the upper end with good form, increase weight."],
 ["Recomposition","Gaining or maintaining muscle while reducing body fat over time."]
 ];
-function exerciseType(name){const n=name.toLowerCase();if(/squat|leg press|split squat|extension|calf|lunge/.test(n))return "squat";if(/row|pulldown|curl|reverse pec/.test(n))return "pull";if(/deadlift|hip thrust|leg curl/.test(n))return "hinge";if(/plank|crunch|knee raise|dead bug/.test(n))return "core";return "press"}
-function illustration(name){const type=exerciseType(name);
-const torso='<circle cx="100" cy="42" r="15" fill="#8dd3ff"/><path d="M100 59 L100 118" stroke="#8dd3ff" stroke-width="14" stroke-linecap="round"/>';
-const arms=type==="press"?'<path d="M98 69L67 52L67 22 M102 69L133 52L133 22" />':type==="pull"?'<path d="M98 69L63 88L55 57 M102 69L137 88L145 57" />':type==="hinge"?'<path d="M100 73L125 102L145 114 M100 73L83 108L72 133" />':type==="core"?'<path d="M100 70L67 101L50 111 M100 70L134 101L150 111" />':'<path d="M98 73L68 101L63 125 M102 73L132 101L137 125" />';
-const legs=type==="squat"?'<path d="M100 118L75 142L64 173 M100 118L125 142L136 173"/>':type==="core"?'<path d="M100 118L66 148L40 148 M100 118L134 148L160 148"/>':'<path d="M100 118L81 155L76 177 M100 118L119 155L124 177"/>';
-return '<svg viewBox="0 0 200 205" role="img" aria-label="Schematic '+escapeHTML(type)+' movement illustration"><rect x="1" y="1" width="198" height="203" rx="16" fill="#0d2034"/><path d="M20 181H180" stroke="#45617d" stroke-width="2"/>'+torso+'<g stroke="#8dd3ff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none">'+arms+legs+'</g><path d="M155 47L155 87" stroke="#64e0ae" stroke-width="3"/><path d="M149 80L155 88L161 80" stroke="#64e0ae" stroke-width="3"/><text x="100" y="196" font-size="10" text-anchor="middle" fill="#b8d1e7">'+escapeHTML(type.toUpperCase())+' MOVEMENT</text></svg>'}
-function cues(name){const t=exerciseType(name);const c={press:["Set your shoulders and brace your trunk before each rep.","Lower the weight under control; press without bouncing.","Keep wrists stacked and avoid flaring your elbows excessively."],pull:["Start from a stable torso and initiate the pull with your back.","Move through a comfortable full range without jerking.","Lower the weight slowly instead of letting it drop."],squat:["Brace before descending and keep pressure through your whole foot.","Let knees track naturally with your toes.","Use a controlled depth that preserves balance and comfort."],hinge:["Keep your spine neutral and brace your trunk.","Move through your hips rather than rounding your lower back.","Keep the load close and stop at your comfortable range."],core:["Keep ribs and pelvis controlled throughout.","Move slowly and avoid using momentum.","Stop when you can no longer maintain a stable trunk."]};return c[t]}
-function guideCard(name){return '<div class="card"><div class="row" style="align-items:start"><div style="width:110px;flex-shrink:0">'+illustration(name)+'</div><div><h2>'+escapeHTML(name)+'</h2><span class="pill">Illustrated movement pattern</span><p class="note" style="font-size:12px">This is a schematic, not a frame-by-frame demonstration.</p></div></div><b>Technique cues</b><ul class="note">'+cues(name).map(c=>'<li>'+c+'</li>').join("")+'</ul></div>'}
-const oldTrainView=trainView;
-trainView=function(){oldTrainView();const cards=[...$("#app").querySelectorAll(".card")];draft.forEach((x,i)=>{const c=cards[i+1];if(!c)return;const b=document.createElement("button");b.textContent="View illustration + technique";b.style.marginBottom="8px";b.onclick=()=>{selectedGuide=x.name;page="guide";render()};c.insertBefore(b,c.children[1])});const note=document.createElement("p");note.className="note";note.innerHTML='New to a term? <button id="terms" type="button">Training glossary</button>';$("#app").prepend(note);$("#terms").onclick=()=>{selectedGuide=null;page="guide";render()}}
-let selectedGuide=null;
-guideView=function(){const names=[...new Set(PROGRAMS.flatMap(p=>p.items.map(x=>x[0])))];$("#app").innerHTML='<div class="card"><h2>Exercise library</h2><p class="note">Choose an exercise to see an offline schematic and technique cues. These illustrations show movement categories, not exercise-specific body positioning.</p><label>Exercise</label><select id="guidePick" style="width:100%">'+names.map(n=>'<option '+(selectedGuide===n?"selected":"")+'>'+escapeHTML(n)+'</option>').join("")+'</select></div><div id="guideContent"></div><div class="card"><h2>Training glossary</h2><p class="note">Tap any term to expand its definition.</p>'+GLOSSARY.map(([term,definition])=>'<details class="set"><summary><b>'+escapeHTML(term)+'</b></summary><p class="note">'+escapeHTML(definition)+'</p></details>').join("")+'</div>';const sel=$("#guidePick");if(selectedGuide&&names.includes(selectedGuide))sel.value=selectedGuide;const show=()=>{$("#guideContent").innerHTML=guideCard(sel.value)};sel.onchange=()=>{selectedGuide=sel.value;show()};show()};
-const oldProgressView=progressView;
-progressView=function(){oldProgressView();const all=[...new Set(PROGRAMS.flatMap(p=>p.items.map(x=>x[0])))];const card=document.createElement("div");card.className="card";card.innerHTML='<h2>Weight progression by exercise</h2><p class="note">Historical working weight for completed sets. Each point is the heaviest completed set in that workout. For dumbbells, lb is per hand.</p><label>Choose exercise</label><select id="historyPick" style="width:100%">'+all.map(n=>'<option>'+escapeHTML(n)+'</option>').join("")+'</select><div id="historyChart"></div><div id="historyRows"></div>';$("#app").insertBefore(card,$("#app").children[1]);const pick=$("#historyPick");const show=()=>{const points=state.sessions.flatMap(s=>s.exercises.filter(x=>x.name===pick.value).map(x=>{const sets=x.sets.filter(t=>t.done&&Number(t.weight)>0);if(!sets.length)return null;const max=Math.max(...sets.map(t=>Number(t.weight)));const top=sets.filter(t=>Number(t.weight)===max).sort((a,b)=>Number(b.reps)-Number(a.reps))[0];return {date:s.date,weight:max,reps:top.reps,rir:top.rir}})).filter(Boolean).sort((a,b)=>a.date.localeCompare(b.date));const first=points[0],last=points[points.length-1];$("#historyChart").innerHTML=points.length?lineChart(points.map(x=>x.weight))+'<div class="grid two"><div><div class="tag">First recorded</div><h2>'+first.weight+' lb</h2></div><div><div class="tag">Latest recorded</div><h2>'+last.weight+' lb</h2></div></div><p class="note">Change: '+(last.weight-first.weight>=0?"+":"")+(last.weight-first.weight).toFixed(1)+' lb across '+points.length+' logged sessions.</p>':'<p class="note">No completed sets recorded for this exercise yet.</p>';$("#historyRows").innerHTML=points.slice().reverse().map(x=>'<div class="set row"><span>'+x.date+'</span><b>'+x.weight+' lb × '+x.reps+' reps</b><span class="muted">RIR '+x.rir+'</span></div>').join("")};pick.onchange=show;show()};
-render();
 
-
-/* v2.2 muscle coverage and exercise-specific demonstration links */
 const MUSCLES={
 "Flat dumbbell bench press":[["Chest (pectorals)"],["Triceps","Front deltoids"]],
 "Lat pulldown":[["Latissimus dorsi (lats)"],["Biceps","Mid-back","Rear deltoids"]],
@@ -105,39 +88,7 @@ const MUSCLES={
 };
 const GROUPS=[["Chest",/chest|pectoral/i],["Back",/lat|mid-back|rhomboid|trapezius/i],["Shoulders",/deltoid/i],["Biceps",/biceps|brachialis/i],["Triceps",/triceps/i],["Quads",/quadriceps/i],["Hamstrings",/hamstrings/i],["Glutes",/glutes/i],["Calves",/calves|soleus|gastrocnemius/i],["Core",/abdominals|core|obliques/i]];
 function muscleData(name){return MUSCLES[name]||[["Muscle information pending"],[]]}
-function musclesMarkup(name){const [primary,secondary]=muscleData(name);return '<div class="card"><h2>Muscles worked</h2><div class="tag">Primary movers</div><p>'+primary.map(x=>'<span class="pill" style="margin:3px">'+escapeHTML(x)+'</span>').join("")+'</p><div class="tag">Secondary / assisting</div><p>'+(secondary.length?secondary.map(x=>'<span class="pill" style="margin:3px">'+escapeHTML(x)+'</span>').join(""):'None specifically listed')+'</p><p class="note" style="font-size:12px">Muscle contribution varies with equipment, technique, range of motion and individual anatomy. Secondary muscles are not equivalent to dedicated training volume.</p></div>'}
-function demoMarkup(name){const search="https://www.youtube.com/results?search_query="+encodeURIComponent(name+" exercise proper form demonstration");const verified=name==="Flat dumbbell bench press"?"https://www.muscleandstrength.com/exercises/dumbbell-bench-press.html":null;return '<div class="card"><h2>Watch a demonstration</h2><p class="note">Open real exercise demonstration videos online. Video playback requires internet; your workout logging still works offline.</p>'+(verified?'<p><a href="'+verified+'" target="_blank" rel="noopener noreferrer">Watch verified dumbbell bench press demonstration ↗</a></p>':'')+'<p><a href="'+search+'" target="_blank" rel="noopener noreferrer">Find '+escapeHTML(name)+' demonstration videos on YouTube ↗</a></p><p class="note" style="font-size:12px">Video results are provided by YouTube and are not individually reviewed by Strength Lab. Match the equipment and variation to your prescribed exercise.</p></div>'}
-const previousGuideView=guideView;
-guideView=function(){previousGuideView();const el=document.querySelector("#guideContent");if(!el)return;const selected=document.querySelector("#guidePick");const show=()=>{el.insertAdjacentHTML("beforeend",musclesMarkup(selected.value)+demoMarkup(selected.value))};show();const original=selected.onchange;selected.onchange=()=>{original();show()}};
-function coverage(){const names=PROGRAMS.slice(0,4).flatMap(p=>p.items.map(x=>x[0]));const rows=GROUPS.map(([group,re])=>{const exercises=names.filter(n=>muscleData(n)[0].some(m=>re.test(m)));const sessions=PROGRAMS.slice(0,4).filter(p=>p.items.some(x=>exercises.includes(x[0]))).length;return {group,exercises,sessions}});return '<div class="card"><h2>Weekly muscle coverage</h2><p class="note">Based on your four scheduled gym sessions (not hotel replacements). This counts direct primary-muscle exercises, not exact weekly stimulus or recovery.</p>'+rows.map(x=>'<div class="set"><div class="row"><b>'+x.group+'</b><span class="pill">'+x.sessions+' day'+(x.sessions===1?"":"s")+'</span></div><p class="muted" style="font-size:12px">'+(x.exercises.length?x.exercises.map(escapeHTML).join(" · "):"No primary-target exercise currently programmed")+'</p></div>').join("")+'<p class="note">A muscle appearing once is not necessarily undertrained; evaluate weekly hard sets, recovery and progression. Your plan includes all major listed muscle groups, though some have more direct work than others.</p></div>'}
-const previousTrainView=trainView;
-trainView=function(){previousTrainView();const c=document.createElement("div");c.innerHTML=coverage();$("#app").appendChild(c)};
-const previousGuide2=guideView;
-guideView=function(){previousGuide2();const c=document.createElement("div");c.innerHTML=coverage();$("#app").appendChild(c)};
-render();
 
-
-/* Strength Lab 2.6: strict 1:1 exercise-guide mapping.
-   No unrelated embeds, third-party media, or generic movement images. */
-const GUIDE_EXERCISES=[...new Set(PROGRAMS.flatMap(p=>p.items.map(item=>item[0])))];
-const VERIFIED_MEDIA=Object.create(null); // Only populate after confirming the exact lift, equipment, and reuse rights.
-function guideView(){
-  const app=document.querySelector("#app");
-  app.innerHTML='<div class="card"><div class="tag">EXERCISE LIBRARY · EXACT MATCHES ONLY</div><h2>Exercise guides</h2><p class="note">Each guide is tied to the exact exercise in your training plan. Videos and photos are displayed only after their movement, equipment and reuse permission have been checked. No substitute demonstrations.</p><label for="guidePick">Choose an exercise</label><select id="guidePick" style="width:100%">'+GUIDE_EXERCISES.map(name=>'<option value="'+escapeHTML(name)+'">'+escapeHTML(name)+'</option>').join("")+'</select></div><div id="guideContent"></div>';
-  const pick=document.querySelector("#guidePick");
-  function show(){
-    const name=pick.value, found=GUIDE_EXERCISES.includes(name);
-    if(!found)return;
-    const usages=PROGRAMS.filter(p=>p.items.some(item=>item[0]===name)).map(p=>p.short);
-    const media=VERIFIED_MEDIA[name];
-    const mediaHTML=media?'<div class="video-frame"><iframe title="'+escapeHTML(name)+' demonstration" src="'+escapeHTML(media.embed)+'" loading="lazy" allowfullscreen></iframe></div>':'<div class="video-empty"><b>Exact-match video not yet verified</b><p class="note">We removed the mismatched video and illustration. No unrelated exercise will be shown.</p></div>';
-    document.querySelector("#guideContent").innerHTML='<div class="card"><div class="tag">YOUR PROGRAM · '+escapeHTML(usages.join(" / "))+'</div><h2>'+escapeHTML(name)+'</h2>'+mediaHTML+'<p class="note">Demonstration must show this exact exercise and equipment before it is added.</p></div>'+musclesMarkup(name)+coverage();
-  }
-  pick.onchange=show;show();
-}
-render();
-
-/* Strength Lab 2.7 — cohesive exercise detail screens and one-tap entry from workouts */
 const EXERCISE_DETAILS={
 "Flat dumbbell bench press":{desc:"Flat-bench chest press with a dumbbell in each hand.",steps:["Lie on a flat bench with feet planted and shoulder blades gently set.","Lower both dumbbells with wrists stacked over forearms.","Press upward with control; avoid bouncing or losing shoulder position."],mistakes:["Flaring elbows excessively","Bouncing at the bottom","Lifting hips off the bench"]},
 "Lat pulldown":{desc:"Vertical cable pull toward the upper chest.",steps:["Set thigh pads snugly and grasp the bar.","Pull elbows toward your sides while bringing the bar toward upper chest.","Return slowly without shrugging or swinging."],mistakes:["Pulling behind the neck","Leaning back excessively","Using momentum"]},
@@ -146,35 +97,59 @@ const EXERCISE_DETAILS={
 "Romanian deadlift":{desc:"Hip-hinge movement emphasizing hamstrings and glutes.",steps:["Stand tall with barbell close to thighs.","Push hips backward with soft knees and a braced trunk.","Stand by driving hips forward while keeping the bar close."],mistakes:["Rounding the back","Turning the movement into a squat","Lowering past controlled hip range"]},
 "Bulgarian split squat":{desc:"Rear-foot-elevated single-leg squat.",steps:["Place rear foot on a bench and establish a stable front stance.","Lower under control by bending the front knee and hip.","Press through the front foot to stand."],mistakes:["Front stance too narrow","Bouncing at the bottom","Pushing mostly from rear foot"]}
 };
-function detailedGuide(name){
- const match=EXERCISE_DETAILS[name]||{}, muscles=muscleData(name), primary=muscles[0]||[], secondary=muscles[1]||[];
- const sessions=PROGRAMS.filter(p=>p.items.some(x=>x[0]===name)).map(p=>p.short);
- const exercise=PROGRAMS.flatMap(p=>p.items).find(x=>x[0]===name);
- const steps=match.steps||cues(name);
- const mistakes=match.mistakes||["Using momentum instead of a controlled repetition","Choosing more load than you can control"];
- const media=VERIFIED_MEDIA[name];
- return '<div class="exercise-hero"><div class="tag">EXERCISE LIBRARY / '+escapeHTML(sessions.join(" · "))+'</div><h2>'+escapeHTML(name)+'</h2><p class="note">'+escapeHTML(match.desc||"Strength-training movement in your current program.")+'</p><div class="muscle-chips">'+primary.map(x=>'<span class="muscle-chip primary">'+escapeHTML(x)+' · Primary</span>').join("")+secondary.map(x=>'<span class="muscle-chip">'+escapeHTML(x)+' · Secondary</span>').join("")+'</div></div>'+
- '<div class="card exercise-media"><div class="tag">EXERCISE DEMONSTRATION</div>'+(media?'<div class="video-frame"><iframe src="'+escapeHTML(media.embed)+'" title="'+escapeHTML(name)+' demonstration" allowfullscreen loading="lazy"></iframe></div>':'<div class="media-pending"><span class="media-symbol">▣</span><strong>Exact exercise photo and video pending</strong><p class="note">Only a verified demonstration of '+escapeHTML(name)+' will appear here. No stick figures or substitute exercises.</p></div>')+'</div>'+
- '<div class="card"><div class="row"><h2>Muscles activated</h2><span class="pill">Targeted</span></div><div class="muscle-legend"><span class="muscle-dot primary-dot"></span><div><b>Primary</b><p class="note">'+escapeHTML(primary.join(", ")||"Not classified")+'</p></div></div><div class="muscle-legend"><span class="muscle-dot secondary-dot"></span><div><b>Secondary</b><p class="note">'+escapeHTML(secondary.join(", ")||"Not classified")+'</p></div></div></div>'+
- '<div class="card"><h2>Technique cues</h2><div class="steps">'+steps.map((x,i)=>'<div class="step"><span class="step-number">'+(i+1)+'</span><span>'+escapeHTML(x)+'</span></div>').join("")+'</div></div>'+
- '<div class="card mistakes"><h2>Common mistakes</h2>'+mistakes.map(x=>'<div class="mistake"><span>×</span>'+escapeHTML(x)+'</div>').join("")+'</div>'+
- '<div class="card"><h2>Your training prescription</h2><p class="note">'+(exercise?exercise[1]+' working sets · '+escapeHTML(exercise[2])+' reps':'See your training plan')+'</p><p class="note">Technique comes before load. Keep roughly 1–3 reps in reserve on most working sets.</p></div>';
+
+/* Strength Lab 3.0 — redesigned experience, preserving localStorage format */
+const EXERCISES=[...new Set(PROGRAMS.flatMap(p=>p.items.map(x=>x[0])))];
+let selectedExercise=EXERCISES[0],libraryQuery="",libraryFilter="All";
+const CATEGORIES=["All","Chest","Back","Legs","Shoulders","Arms","Core"];
+function category(name){const a=muscleData(name)[0].join(" ").toLowerCase();if(/chest|pec/.test(a))return "Chest";if(/lat|back|rhomboid|trap/.test(a))return "Back";if(/deltoid/.test(a))return "Shoulders";if(/bicep|tricep/.test(a))return "Arms";if(/abdominal|oblique|core/.test(a))return "Core";return "Legs"}
+function muscleTags(name){const [p,s]=muscleData(name);return '<div class="chips">'+p.map(m=>'<span class="chip primary-chip">'+escapeHTML(m)+'</span>').join("")+s.slice(0,2).map(m=>'<span class="chip">'+escapeHTML(m)+'</span>').join("")+'</div>'}
+function visual(name,compact=false){return '<div class="visual '+(compact?'compact':'')+'"><div class="visual-icon" aria-hidden="true">✦</div><div><b>Verified '+(compact?'visual':'demonstration')+' pending</b>'+(compact?'':'<p>We will only display an image or video showing this exact exercise and equipment. The concept mockups are not instructional photographs.</p>')+'</div></div>'}
+function header(kicker,title,desc){return '<div class="section-header"><span class="eyebrow">'+kicker+'</span><h2>'+title+'</h2>'+(desc?'<p class="subtle">'+desc+'</p>':'')+'</div>'}
+function goGuide(name){selectedExercise=name;page="guide";render();window.scrollTo(0,0)}
+function nav(){const tabs=[["train","Train","◉"],["progress","Progress","▥"],["body","Body","♙"],["guide","Guide","▤"],["backup","Settings","⚙"]];$("#nav").innerHTML=tabs.map(([id,label,icon])=>'<button class="tab '+(page===id?'active':'')+'" data-page="'+id+'" aria-label="'+label+'"><span class="tab-icon">'+icon+'</span><span>'+label+'</span></button>').join("");document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>{page=b.dataset.page;render();window.scrollTo(0,0)})}
+function render(){nav();({train:trainView,progress:progressView,body:bodyView,guide:guideView,backup:backupView})[page]()}
+function trainView(){
+ const p=PROGRAMS[day],sessions=state.sessions.length,sets=state.sessions.reduce((n,s)=>n+s.exercises.reduce((a,x)=>a+x.sets.filter(t=>t.done).length,0),0);
+ $("#app").innerHTML=header("YOUR TRAINING / VERSION 3.0","Build strength. Track progress.","Four structured lifting days, plus two travel-friendly alternatives.")+
+ '<div class="stats"><div class="stat"><span>Workouts logged</span><strong>'+sessions+'</strong></div><div class="stat"><span>Sets completed</span><strong>'+sets+'</strong></div><div class="stat"><span>Plan</span><strong>4 days</strong></div></div>'+
+ '<div class="card workout-picker"><label for="day">TODAY’S WORKOUT</label><select id="day">'+PROGRAMS.map((x,i)=>'<option value="'+i+'" '+(day===i?'selected':'')+'>'+x.name+'</option>').join("")+'</select><div class="workout-summary"><div><strong>'+p.short+'</strong><p class="subtle">'+p.items.length+' exercises · 90 min lifting</p></div><span class="chip primary-chip">'+(day<4?'Gym':'Travel')+'</span></div><p class="subtle">Separate optional 30-minute incline walk: 12% grade at 2.4 mph.</p></div>'+
+ '<div class="section-title"><h2>Working sets</h2><span class="subtle">Weight in lb · DB per hand</span></div>'+
+ draft.map((x,i)=>'<div class="card lift-card"><div class="lift-heading"><div><span class="eyebrow">EXERCISE '+String(i+1).padStart(2,"0")+'</span><h3>'+escapeHTML(x.name)+'</h3><span class="chip">'+x.range+' reps</span></div><button class="guide-action" data-guide="'+i+'">Form & muscles ↗</button></div>'+
+ x.sets.map((s,j)=>'<div class="set-line"><div class="set-label"><strong>Set '+(j+1)+'</strong><label class="done-label"><input type="checkbox" data-field="done" data-i="'+i+'" data-j="'+j+'" '+(s.done?'checked':'')+'> Done</label></div><div class="set-fields"><label>LB<input type="number" min="0" step="2.5" data-field="weight" data-i="'+i+'" data-j="'+j+'" value="'+s.weight+'"></label><label>REPS<input type="number" min="0" data-field="reps" data-i="'+i+'" data-j="'+j+'" value="'+s.reps+'"></label><label>RIR<input type="number" min="0" max="8" data-field="rir" data-i="'+i+'" data-j="'+j+'" value="'+s.rir+'"></label></div></div>').join("")+'</div>').join("")+
+ '<div class="card"><label class="cardio"><input type="checkbox" id="cardio" '+(cardio?'checked':'')+'> Completed separate 30-minute incline walk</label><p class="subtle">Progress by adding reps first. Increase weight once you consistently reach the top of your rep range with 1–2 RIR and controlled form.</p><button class="primary full" id="finish">Save completed workout</button></div>';
+ $("#day").onchange=e=>{day=Number(e.target.value);newDraft();render()};
+ document.querySelectorAll("[data-field]").forEach(el=>el.onchange=e=>{const {i,j,field}=e.target.dataset;draft[+i].sets[+j][field]=field==="done"?e.target.checked:Number(e.target.value)||0});
+ document.querySelectorAll("[data-guide]").forEach(b=>b.onclick=()=>goGuide(draft[Number(b.dataset.guide)].name));
+ $("#cardio").onchange=e=>cardio=e.target.checked;
+ $("#finish").onclick=()=>{const done=draft.flatMap(x=>x.sets).filter(s=>s.done);if(!done.length&&!confirm("Save without completed sets?"))return;state.sessions.push({id:Date.now(),date:today(),program:p.name,cardio,exercises:structuredClone(draft)});save();newDraft();page="progress";render();window.scrollTo(0,0)};
 }
-guideView=function(){
- const app=document.querySelector("#app");
- const chosen=GUIDE_EXERCISES.includes(selectedGuide)?selectedGuide:GUIDE_EXERCISES[0];
- app.innerHTML='<div class="card exercise-selector"><label for="guidePick">EXERCISE LIBRARY</label><select id="guidePick" style="width:100%">'+GUIDE_EXERCISES.map(n=>'<option value="'+escapeHTML(n)+'" '+(n===chosen?'selected':'')+'>'+escapeHTML(n)+'</option>').join("")+'</select></div><div id="guideContent"></div>';
- const pick=document.querySelector("#guidePick");
- function show(){selectedGuide=pick.value;document.querySelector("#guideContent").innerHTML=detailedGuide(pick.value)}
- pick.onchange=show;show();
-};
-const oldTrain27=trainView;
-trainView=function(){
- oldTrain27();
- document.querySelectorAll("#app .card").forEach(card=>{
-   const h=card.querySelector("h2");if(!h||!GUIDE_EXERCISES.includes(h.textContent.trim()))return;
-   const existing=Array.from(card.querySelectorAll("button")).find(b=>/View illustration/.test(b.textContent));
-   if(existing){existing.textContent="View exercise form & muscles";existing.onclick=()=>{selectedGuide=h.textContent.trim();page="guide";render()}}
- });
-};
+function guideView(){
+ $("#app").innerHTML=header("THE MOVEMENT LIBRARY","Know every rep.","Every guide matches an exercise in your exact program.")+
+ '<div class="card"><label for="search">SEARCH EXERCISES</label><input id="search" type="search" placeholder="Search exercises…" value="'+escapeHTML(libraryQuery)+'"><div class="filters">'+CATEGORIES.map(c=>'<button class="filter '+(libraryFilter===c?'selected':'')+'" data-filter="'+c+'">'+c+'</button>').join("")+'</div></div><div id="libraryList"></div><div id="exerciseDetail"></div>';
+ const search=$("#search");search.oninput=()=>{libraryQuery=search.value;showLibrary()};
+ document.querySelectorAll("[data-filter]").forEach(b=>b.onclick=()=>{libraryFilter=b.dataset.filter;document.querySelectorAll("[data-filter]").forEach(x=>x.classList.toggle("selected",x.dataset.filter===libraryFilter));showLibrary()});
+ showLibrary();
+}
+function showLibrary(){
+ const found=EXERCISES.filter(n=>n.toLowerCase().includes(libraryQuery.toLowerCase())&&(libraryFilter==="All"||category(n)===libraryFilter));
+ $("#libraryList").innerHTML='<div class="section-title"><h2>Exercises</h2><span class="subtle">'+found.length+' movements</span></div>'+(found.length?found.map(n=>'<button class="exercise-row '+(selectedExercise===n?'chosen':'')+'" data-ex="'+escapeHTML(n)+'"><span class="exercise-glyph">'+({Chest:"◉",Back:"↗",Legs:"▱",Shoulders:"◇",Arms:"↟",Core:"⊕"}[category(n)])+'</span><span class="exercise-name"><b>'+escapeHTML(n)+'</b><small>'+category(n)+' · View form guide</small></span><span class="chevron">›</span></button>').join(""):'<div class="card subtle">No matching exercises.</div>');
+ document.querySelectorAll("[data-ex]").forEach(b=>b.onclick=()=>{selectedExercise=b.dataset.ex;showLibrary();$("#exerciseDetail").scrollIntoView({behavior:"smooth",block:"start"})});
+ showDetail();
+}
+function showDetail(){
+ const name=selectedExercise,detail=EXERCISE_DETAILS[name]||{},[primary,secondary]=muscleData(name),steps=detail.steps||["Set your starting position and brace your trunk.","Move through a comfortable range of motion with control.","Finish the repetition without swinging or using momentum."],errors=detail.mistakes||["Using momentum or excessive load","Losing a stable starting position"];
+ const rx=PROGRAMS.flatMap(p=>p.items).find(x=>x[0]===name),used=PROGRAMS.filter(p=>p.items.some(x=>x[0]===name)).map(p=>p.short);
+ $("#exerciseDetail").innerHTML='<div class="detail"><div class="detail-head"><span class="eyebrow">EXERCISE GUIDE / '+escapeHTML(used.join(" · "))+'</span><h2>'+escapeHTML(name)+'</h2><p class="subtle">'+escapeHTML(detail.desc||"Controlled resistance training movement.")+'</p>'+muscleTags(name)+'</div>'+
+ '<div class="card media-card"><div class="eyebrow">EXERCISE FORM</div>'+visual(name)+'</div>'+
+ '<div class="card"><h3>Muscles activated</h3><div class="legend"><span class="dot red"></span><div><strong>Primary</strong><p>'+escapeHTML(primary.join(" · "))+'</p></div></div><div class="legend"><span class="dot blue"></span><div><strong>Secondary</strong><p>'+escapeHTML(secondary.join(" · ")||"None specifically listed")+'</p></div></div><p class="subtle">Muscle recruitment varies with form, equipment and individual anatomy.</p></div>'+
+ '<div class="card"><h3>Technique cues</h3>'+steps.map((v,i)=>'<div class="instruction"><span>'+(i+1)+'</span><p>'+escapeHTML(v)+'</p></div>').join("")+'</div>'+
+ '<div class="card warning"><h3>Common mistakes</h3>'+errors.map(v=>'<div class="error"><span>×</span>'+escapeHTML(v)+'</div>').join("")+'</div>'+
+ '<div class="card"><h3>Your prescription</h3><p class="subtle">'+(rx?rx[1]+' working sets · '+escapeHTML(rx[2])+' reps':'Included in your plan')+'</p><p class="subtle">Keep 1–3 reps in reserve on most sets and prioritize stable technique.</p></div></div>';
+}
+function progressView3(){progressViewLegacy();$("#app").insertAdjacentHTML("afterbegin",header("TRAINING ANALYTICS","Your progress.","Strength, consistency and training history in one place."))}
+function bodyView3(){bodyViewLegacy();$("#app").insertAdjacentHTML("afterbegin",header("BODY COMPOSITION","Measure what matters.","Weight, waist and recovery trends. No calorie tracking required."))}
+function backupView3(){backupViewLegacy();$("#app").insertAdjacentHTML("afterbegin",header("YOUR DATA","Settings & backup.","Your history stays on this device unless you export it.")+'<div class="card"><h3>About Strength Lab 3.0</h3><p class="subtle">Built around four lifting days and hotel alternatives. Media is only displayed when the exact exercise and rights are verified.</p></div>')}
+const progressViewLegacy=progressView,bodyViewLegacy=bodyView,backupViewLegacy=backupView;
+progressView=progressView3;bodyView=bodyView3;backupView=backupView3;
 render();
