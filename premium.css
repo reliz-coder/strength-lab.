@@ -1,0 +1,50 @@
+/* Strength Lab 5.0 visual system */
+:root{--sl-bg:#050c15;--sl-surface:#0c1725;--sl-surface2:#101f30;--sl-border:#21374d;--sl-blue:#208bff;--sl-text:#f3f8ff;--sl-muted:#91a9c0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,Arial,sans-serif;background:var(--sl-bg);color:var(--sl-text);color-scheme:dark}
+html{scroll-behavior:smooth}body{background:radial-gradient(ellipse at 60% -8%,#132c4a 0%,#081321 30%,#050b14 70%);min-height:100dvh}
+main{max-width:580px;padding:calc(20px + env(safe-area-inset-top)) 16px calc(115px + env(safe-area-inset-bottom))}
+.app-brand{margin:0 0 21px;padding:2px 1px 14px;border-bottom:1px solid #1c2d3f;gap:10px}
+.brand-name{font-size:22px;font-weight:850;letter-spacing:-.9px;display:flex;align-items:center;gap:9px}
+.brand-name:before{content:"✦";display:grid;place-items:center;width:29px;height:29px;border-radius:9px;background:linear-gradient(135deg,#138dff,#0755bc);color:white;font-size:19px;box-shadow:0 4px 20px #138bff40}
+.version{border:0;color:#94a8bf;font-size:10px;padding:5px}
+h1,h2,h3{letter-spacing:-.5px}h2{font-size:24px}h3{font-size:17px}p{line-height:1.52}
+.card{background:linear-gradient(165deg,#101f2f 0%,#0b1624 100%);border:1px solid #21364c;border-radius:16px;padding:16px;margin:11px 0;box-shadow:0 5px 24px #0000001c}
+.card h3{margin-bottom:10px}.eyebrow{font-size:10px;letter-spacing:1.35px;color:#6cb9ff;font-weight:800}
+.subtle,.muted,.note,small{color:#98adc2}
+.section-header h2{font-size:30px;line-height:1.12;letter-spacing:-1.1px}
+.section-header{padding:0 0 8px}
+button.primary,.primary.full{background:linear-gradient(110deg,#138dff,#0e70e9);border:1px solid #4cafff;color:#fff;border-radius:11px;min-height:47px;font-weight:800;box-shadow:0 8px 24px #086fe633}
+button,select,input{transition:border-color .16s,background-color .16s,transform .16s}button:active{transform:scale(.985)}
+input,select{background:#0d1b2b;border:1px solid #30465e;border-radius:10px;color:#eff7ff}
+.stats{gap:8px}.stat{background:#0d1c2c;border:1px solid #25425b;border-radius:13px;padding:13px 10px}.stat strong{color:#f2f8ff;font-size:24px}.stat span{color:#8ca7be}
+.workout-picker{border-color:#28547a;background:linear-gradient(150deg,#123354,#0d1d2f 65%,#0b1624)}
+.lift-card{padding:14px;border-color:#243a51}.lift-heading h3{font-size:17px;margin:5px 0}.lift-heading{align-items:start}
+.chip{border-radius:7px;padding:5px 8px;background:#172d43;color:#b8dcfa;font-size:10px}.primary-chip{background:#13538b;color:#c4e8ff}
+.set-line{border-color:#23374b}.set-fields input{background:#0a1726}
+#nav{background:#07121feF!important;border-top:1px solid #254057!important;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 -10px 35px #0006}
+#nav .tab{color:#7d96ad}#nav .tab.active{color:#4dabff}#nav .tab-icon{font-size:19px}
+.exercise-row{background:#0e1c2b;border:1px solid #263e54;border-radius:13px;margin:7px 0}
+.exercise-row.chosen{border-color:#2387e9;background:#102e4b}
+.detail-head h2{font-size:28px}.media-card{background:#081523;padding:12px}.photo-grid{gap:7px}.photo-frame{border-radius:10px;overflow:hidden;background:#0a1623}.photo-frame img{width:100%;object-fit:cover}
+.warning{background:linear-gradient(145deg,#351619,#21151c);border-color:#663036}
+.instruction span{background:#176cbb;color:#fff}
+.sl-hero{border:1px solid #24547e;background:linear-gradient(135deg,#0e2d4b,#091c30);border-radius:17px;overflow:hidden;margin:0 0 13px;position:relative;min-height:158px;display:flex;align-items:stretch}
+.sl-hero-copy{position:relative;z-index:2;padding:18px 16px;width:68%;display:flex;flex-direction:column;justify-content:center}
+.sl-hero-kicker{font-size:10px;font-weight:850;color:#8dcfff;letter-spacing:1.3px;margin:0 0 8px}
+.sl-hero-title{font-size:24px;line-height:1.08;font-weight:850;letter-spacing:-.7px;margin:0 0 9px}
+.sl-hero-sub{font-size:12px;color:#b3cce1;margin:0}
+.sl-hero-image{position:absolute;right:0;top:0;width:52%;height:100%;object-fit:cover;opacity:.72;mask-image:linear-gradient(to right,transparent,#000 50%);-webkit-mask-image:linear-gradient(to right,transparent,#000 50%)}
+.sl-section{display:flex;align-items:center;justify-content:space-between;margin:20px 2px 10px;gap:8px}.sl-section h2{font-size:18px;margin:0}.sl-section small{font-size:11px}
+.sl-program-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.sl-program-card{position:relative;display:flex;align-items:end;text-align:left;min-height:130px;padding:12px;border:1px solid #2b4359;border-radius:13px;overflow:hidden;background:#112238;color:#fff}
+.sl-program-card.is-active{border-color:#2b9bff;box-shadow:inset 0 0 0 1px #2b9bff,0 5px 20px #057fff24}
+.sl-program-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5}
+.sl-program-card:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#06121ef2,#06121e66 60%,transparent)}
+.sl-program-content{position:relative;z-index:1;display:flex;flex-direction:column;gap:4px}
+.sl-program-content strong{font-size:15px;letter-spacing:-.2px}.sl-program-content small{font-size:10px;color:#c2d9ee}
+.sl-day-pill{position:absolute;z-index:2;top:9px;left:9px;background:#167ad3;color:#fff;border-radius:6px;padding:4px 6px;font-size:9px;font-weight:800}
+.sl-plan-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 13px;background:#0c2134;border:1px solid #244b6b;border-radius:12px;margin:10px 0 15px}.sl-plan-bar span{font-size:11px;color:#a4c4df}.sl-plan-bar strong{font-size:12px;color:#e4f3ff}
+.sl-focus-button{display:block;width:100%;background:#167ff1;border:1px solid #4faeff;border-radius:11px;color:white;font-weight:800;font-size:13px;padding:13px;margin:12px 0 4px}
+.sl-workout-anchor{scroll-margin-top:15px}
+.sl-photo-credit{font-size:10px;color:#829bb1;margin:10px 2px}
+@media(min-width:650px){.sl-program-card{min-height:165px}.sl-hero{min-height:185px}.sl-hero-title{font-size:30px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
