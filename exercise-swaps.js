@@ -1,6 +1,6 @@
 /* Strength Lab 3.9 — exercise substitutions by movement and equipment */
 (()=>{
-const STORAGE="strength-lab-exercise-swaps-v1";
+const STORAGE="strength-lab-exercise-swaps-v2";
 let swaps={};try{swaps=JSON.parse(localStorage.getItem(STORAGE))||{}}catch{}
 const groups={
  chestPress:["Flat dumbbell bench press","Incline dumbbell press","Dumbbell bench press","Dumbbell incline press","Cable chest press","Standing cable chest press","Machine chest press","Barbell bench press","Push-up"],
