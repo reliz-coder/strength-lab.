@@ -9,10 +9,16 @@
   "description": "Small Inputs. Measurable Change. Evidence-informed strength training and progress tracking.",
   "icons": [
     {
+      "src": "./delta-lab-apple-touch-icon.png?v=20261122dl83",
+      "sizes": "120x120",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
       "src": "./delta-lab-icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ]
 }
