@@ -1,0 +1,65 @@
+/* Delta Lab 10.0 — genuine layout and interaction redesign */
+:root{--dl10-bg:#090c12;--dl10-card:#17191e;--dl10-line:#34373e;--dl10-orange:#ff9a0c;--dl10-muted:#a6aab4}
+body{background:#090c12!important;background-image:none!important}
+#app .dl10-exercise-nav,#app .dl10-insights{color:#f7f8fa}
+#app .dl10-exercise-nav{position:relative;margin:14px 0 16px;padding:16px 0 5px;border:0;background:transparent}
+#app .dl10-navtop{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:15px}
+#app .dl10-navtop>div{display:grid;gap:4px}
+#app .dl10-navtop small,#app .dl10-kicker{font-size:10px;letter-spacing:1.7px;font-weight:850;color:#ffad51}
+#app .dl10-navtop strong{font-size:20px}
+#app .dl10-navtop button{background:#22252c;border:1px solid #55575d;border-radius:10px;padding:9px 11px;color:#f4f4f4;font-weight:700;font-size:12px}
+#app .dl10-pills{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:3px 0 13px;scroll-snap-type:x proximity}
+#app .dl10-pills button{flex:0 0 auto;max-width:230px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;scroll-snap-align:start;border:1px solid #45464c;background:#222329;color:#e1e2e6;border-radius:999px;padding:11px 15px;font-size:12px;font-weight:700}
+#app .dl10-pills button.selected{background:#ff9a0c;color:#121212;border-color:#ffc163}
+#app .dl10-pills button.finished:not(.selected){border-color:#5e8b6b;color:#9ee0b4}
+#app .dl10-navfoot{display:flex;align-items:center;gap:9px;justify-content:space-between;color:#a7aab4;font-size:12px}
+#app .dl10-navfoot button{background:#1d2026;border:1px solid #42454d;color:#f0f0f0;border-radius:9px;padding:8px 10px}
+#app .dl10-navfoot button:disabled{opacity:.3}
+#app .sl55-exercise.dl10-hidden{display:none!important}
+#app .sl55-exercise.sl74-training-card{background:#17191e!important;border:1px solid #383b43!important;border-radius:17px!important;box-shadow:none!important}
+#app .sl55-exercise.sl74-training-card .sl55-setrow{background:#1b1d23!important;border:1px solid #383a42!important;border-radius:13px!important;padding:13px!important;margin:11px 0!important}
+#app .sl55-exercise.sl74-training-card .sl55-setrow input[type=number]{background:#111318!important;border-color:#44464c!important;color:#fff!important}
+#app .sl55-exercise.sl74-training-card .sl56-quick button{background:#282b31!important;color:#e9e9e9!important;border-color:#44464d!important}
+#app .sl55-exercise.sl74-training-card .dl10-complete{display:block;width:100%;min-height:44px;margin:11px 0 0;background:#ff9a0c!important;color:#151515!important;border:1px solid #ffb44b!important;border-radius:11px;font-weight:850;font-size:14px}
+#app .sl55-exercise.sl74-training-card .dl10-complete.is-done{background:#244536!important;color:#b9f1cc!important;border-color:#4b8a64!important}
+#app .dl10-swap{margin:10px 0 12px;border:1px solid #42454d;border-radius:11px;background:#1a1d23}
+#app .dl10-swap>summary{padding:12px 14px;color:#ffb05b;font-weight:750;font-size:12px;cursor:pointer}
+#app .dl10-swap .swap-row{margin:0!important;border:0!important;border-top:1px solid #383b43!important;border-radius:0!important;background:transparent!important}
+#app .sl74-training-card .sl55-ex-head strong{color:#ffb45e!important}
+#app .sl74-training-card .sl55-index{color:#ff9a0c!important}
+#app .sl74-training-card .sl55-setcount{color:#ffc38c!important;border-color:#795736!important}
+#app .sl74-training-card .sl55-setrow input[type=checkbox]{accent-color:#ff9a0c!important}
+#app .sl74-training-card .sl72-target{background:#29231c!important;color:#f5c08d!important}
+#app .dl10-insights{margin:8px 0 20px}
+#app .dl10-insights>h2{font-size:29px;letter-spacing:-.7px;margin:7px 0 3px}
+#app .dl10-insights>p{color:#a7abb5;font-size:13px;margin:0 0 18px}
+#app .dl10-insight-card{background:#17191e;border:1px solid #373940;border-radius:19px;padding:16px;margin-bottom:15px}
+#app .dl10-insight-card h3{font-size:18px;margin:0 0 15px}
+#app .dl10-insight-card>label{font-size:11px;color:#b4b6be;display:block;margin:0 0 7px}
+#app .dl10-insight-card select{width:100%;background:#0f1116!important;border:1px solid #41434a!important;color:#fff;border-radius:12px;padding:12px;margin-bottom:12px}
+#app .dl10-period{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:#0d0f13;border:1px solid #34363d;border-radius:12px;padding:4px;margin-bottom:16px}
+#app .dl10-period button{padding:10px 4px;background:transparent;border:0;color:#aaaeb8;border-radius:9px;font-size:11px;font-weight:700}
+#app .dl10-period button.selected{background:#ff9a0c;color:#141414}
+#app .dl10-graph{position:relative;border:1px solid #34363e;background:#101216;border-radius:14px;padding:12px 8px 0}
+#app .dl10-chart{display:block;width:100%;height:auto;margin-top:30px}
+#app .dl10-latest{position:absolute;right:13px;top:12px;text-align:right;background:#191713;border:1px solid #76501c;border-radius:10px;padding:7px 10px}
+#app .dl10-latest small{display:block;font-size:9px;letter-spacing:1px;color:#c9ad88}
+#app .dl10-latest strong{font-size:18px;color:#ffba5d}
+#app .dl10-method{color:#a5a9b2;font-size:11px;line-height:1.5;margin:12px 0 0}
+#app .dl10-section-title{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#app .dl10-section-title span{font-size:10px;letter-spacing:1px;color:#87cda5;border:1px solid #366148;border-radius:999px;padding:5px 9px}
+#app .dl10-gain{display:flex;align-items:center;gap:12px;border:1px solid #363940;background:#1e2126;padding:13px 10px;border-radius:13px;margin-top:9px}
+#app .dl10-rank{border:1px solid #a46d2b;color:#ffb553;border-radius:50%;width:31px;height:31px;display:grid;place-items:center;flex-shrink:0;font-weight:800}
+#app .dl10-gain>div{flex:1;min-width:0;display:grid;gap:4px}
+#app .dl10-gain strong{font-size:13px}
+#app .dl10-gain small{color:#a1a6af;font-size:10px}
+#app .dl10-gain>b{color:#8bd4a6;font-size:15px;white-space:nowrap}
+#app .dl10-empty{font-size:12px;color:#aab0ba;line-height:1.5}
+#app .dl10-legacy{border:1px solid #45474e;border-radius:13px;background:#181a20;margin:12px 0}
+#app .dl10-legacy>summary{padding:16px;font-size:13px;color:#ffb05b;font-weight:750;cursor:pointer}
+#app .dl10-legacy #dl10-old-content{padding:0 10px 12px}
+#app .dl10-legacy .sl70-lift{background:#20232a}
+body .sl71-dock.sl71-visible{background:#24262d!important;border-color:#a66b2e!important}
+body .sl71-dock .sl71-track>span{background:#ff9a0c!important}
+body .sl71-dock .sl71-right b{color:#ffad4a!important}
+@media(max-width:370px){#app .dl10-insight-card{padding:12px}#app .dl10-navtop strong{font-size:17px}}
