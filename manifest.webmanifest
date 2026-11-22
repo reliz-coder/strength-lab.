@@ -1,1 +1,18 @@
-{"name":"Strength Lab — Personal Training","short_name":"Strength Lab","start_url":"./","scope":"./","display":"standalone","background_color":"#0b1421","theme_color":"#101b2b","description":"Offline-first personal strength training tracker"}
+{
+  "name": "Delta Lab — Strength & Health",
+  "short_name": "Delta Lab",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0B1423",
+  "theme_color": "#0B1423",
+  "description": "Small Inputs. Measurable Change. Evidence-informed strength training and progress tracking.",
+  "icons": [
+    {
+      "src": "./delta-lab-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
