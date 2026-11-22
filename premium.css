@@ -209,3 +209,16 @@ input,select{background:#0d1b2b;border:1px solid #30465e;border-radius:10px;colo
 .sl73-returned{outline-color:#ff9b4a!important}
 .sl74-training-card .sl56-quick button:focus-visible,.sl74-training-card input:focus-visible{outline-color:#ff9b4a!important}
 
+
+/* Strength Lab 7.5.1 — orange border on EVERY exercise, blue interior unchanged */
+#app .sl55-exercise.sl74-training-card,
+#app .sl55-exercise.sl74-training-card:not(.sl55-complete){
+  border:2px solid #f97316!important;
+  background:linear-gradient(145deg,#102d52,#0e2341)!important;
+  box-shadow:0 5px 19px #0004!important;
+}
+#app .sl55-exercise.sl74-training-card.sl55-complete{
+  border:2px solid #fb923c!important;
+  background:linear-gradient(145deg,#102d52,#0e2341)!important;
+  box-shadow:inset 4px 0 0 #f97316,0 5px 19px #0004!important;
+}
