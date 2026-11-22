@@ -229,3 +229,13 @@ input,select{background:#0d1b2b;border:1px solid #30465e;border-radius:10px;colo
 .app-brand .brand-name em{font-style:normal;color:#ff7a00}
 .app-brand .delta-brand-icon{display:block;width:36px;height:36px;object-fit:contain;border-radius:9px;flex:none}
 .app-brand .version{color:#ffae67;border-color:#76502e}
+
+/* Delta Lab 8.2 — backup and restore safety */
+.sl82-backup .sl82-count{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:8px;align-items:center;background:#10243b;border:1px solid #345574;border-radius:13px;padding:12px;margin:16px 0}
+.sl82-backup .sl82-count strong{font-size:23px;color:#ff943e}
+.sl82-backup .sl82-count span{font-size:11px;color:#c2d3e6}
+.sl82-backup details{margin-top:18px;padding:14px;border:1px solid #36516e;border-radius:14px;background:#101e30}
+.sl82-backup summary{cursor:pointer;font-weight:750;color:#f3f8ff}
+.sl82-backup details .primary{margin-top:14px}
+.sl82-backup button:disabled{opacity:.45;cursor:not-allowed}
+.sl82-backup #sl82-preview{margin-top:10px;color:#d7e9fa;font-size:13px}
