@@ -1,0 +1,52 @@
+/* Delta Lab 9.0 — unified visual identity. Presentation only; no storage or workout logic changes. */
+:root{--delta-navy:#0B1423;--delta-surface:#111e2e;--delta-raised:#17273a;--delta-orange:#ff7a00;--delta-orange-soft:#ffac63;--delta-white:#f7f9fc;--delta-muted:#a4b1c2;--delta-line:#304052;--sl-bg:#0B1423;--sl-surface:#111e2e;--sl-surface2:#17273a;--sl-border:#304052;--sl-blue:#ff7a00;--sl-text:#f7f9fc;--sl-muted:#a4b1c2;accent-color:#ff7a00}
+html,body{background:#0B1423!important;color:var(--delta-white)}
+body{background-image:radial-gradient(ellipse at 50% -14%,#1a2c40 0%,#0b1423 47%,#09111d 100%)!important}
+main{max-width:600px}
+.app-brand{border-bottom:1px solid var(--delta-line)!important;padding-bottom:14px!important;margin-bottom:19px!important}
+.app-brand .brand-name{font-weight:850;letter-spacing:.7px}
+.app-brand .brand-name em{color:var(--delta-orange)!important}
+.app-brand .version{color:var(--delta-orange-soft)!important}
+#refresh-app{background:#17273a!important;border:1px solid #405064!important;color:#f5f7fc!important;min-height:38px}
+#app .card,#app .sl55-exercise,#app .sl56-home,#app .sl56-library-head,#app .sl56-analytics,#app .sl55-overview,#app .sl55-progress-summary{background:linear-gradient(160deg,#142338,#0e1929 90%)!important;border-color:var(--delta-line)!important;box-shadow:0 8px 28px #00000026!important}
+#app .sl55-exercise.sl74-training-card,#app .sl55-exercise.sl74-training-card:not(.sl55-complete){background:linear-gradient(160deg,#142338,#0e1929)!important;border:1px solid #465064!important;box-shadow:0 6px 24px #0003!important}
+#app .sl55-exercise.sl74-training-card.sl55-complete{border:1px solid #ff7a00!important;box-shadow:inset 3px 0 0 #ff7a00,0 6px 24px #0003!important}
+#app .sl74-training-card .sl55-setrow{border-top-color:#344459!important}
+#app .sl74-training-card .sl55-index,#app .sl74-training-card .sl55-ex-head strong,#app .sl74-training-card a{color:#ffae6a!important}
+#app .sl74-training-card .sl55-prior,#app .sl74-training-card .sl56-exmeta{color:#b2c0d1!important}
+#app .sl74-training-card .set-fields input,#app .sl74-training-card input[type=number],#app input:not([type=checkbox]):not([type=radio]),#app select{background:#18283b!important;border:1px solid #42536a!important;color:#f7f9fc!important}
+#app input[type=checkbox],#app input[type=radio]{accent-color:#ff7a00!important}
+#app input:focus-visible,#app select:focus-visible,#app button:focus-visible,#nav button:focus-visible{outline:2px solid #ffad63!important;outline-offset:2px}
+#app .primary,#app button.primary,#app .primary.full,#app .sl72-start,#app .sl-focus-button{background:#ff7a00!important;border:1px solid #ff9b42!important;color:#15191f!important;box-shadow:0 6px 18px #ff7a0029!important;font-weight:850}
+#app .primary:disabled{background:#6a5748!important;color:#d1c6bc!important;box-shadow:none!important}
+#app button:not(.primary):not(.tab):not(.filter):not(.exercise-row):not(.guide-action):not(.sl72-start):not(.sl-focus-button){border-color:#43566d}
+#app .eyebrow,#app .sl55-eyebrow,#app .sl56-kicker,#app .sl-hero-kicker{color:#ffab66!important}
+#app .muted,#app .note,#app .subtle,#app small{color:#a9b9ca}
+#app .chip,#app .primary-chip,#app .sl74-training-card .chip,#app .sl74-training-card .primary-chip{background:#26364a!important;color:#f4c39b!important;border-color:#4b5360!important}
+#app .sl55-progress,#app .sl71-track{background:#354154!important}
+#app .sl55-progress span,#app .sl71-track>span{background:linear-gradient(90deg,#ff7a00,#ffb66e)!important}
+#app .sl55-metrics>div,#app .stat,#app .sl-plan-bar{background:#16263a!important;border-color:#34475c!important}
+#app .sl55-bolt,#app .sl74-training-mark,#app .sl-day-pill{background:#ff7a00!important;color:#121925!important}
+#app .sl72-launch,#app .workout-picker,#app .sl-hero{background:linear-gradient(140deg,#1a3045,#0e1929)!important;border-color:#41556a!important}
+#app .sl-program-card{border-color:#465368!important}
+#app .sl-program-card.is-active{border-color:#ff7a00!important;box-shadow:inset 0 0 0 1px #ff7a00!important}
+#app .sl56-quick button,#app .sl74-training-card .sl56-quick button{background:#24364b!important;border-color:#465a70!important;color:#e9f0f7!important}
+#app .sl72-target,#app .sl74-training-card .sl72-target{background:#273347!important;border-color:#75573d!important;color:#ffd1a6!important}
+#app .sl71-dock{background:linear-gradient(130deg,#1b2e42,#142338)!important;border-color:#a9632e!important}
+#app .sl71-right b,#app .sl71-state.done{color:#ffac63!important}
+#app .sl62-float.sl62-active{background:#a95310!important}
+#app .filter.selected,#app .exercise-row.chosen{background:#38291f!important;border-color:#ff7a00!important;color:#fff!important}
+#app .exercise-glyph{background:#302b2a!important;color:#ffb574!important}
+#app .sl82-backup .sl82-count,#app .sl82-backup details{background:#17273a!important;border-color:#43566d!important}
+#app .sl82-backup .sl82-count strong{color:#ffac63!important}
+#app .sl82-backup summary{color:#f7f9fc!important}
+#app .sl82-backup #sl82-preview{color:#dce7f3!important}
+#nav{background:#0b1423f5!important;border-top:1px solid #34465a!important;box-shadow:0 -10px 28px #0006!important}
+#nav .tab{color:#a2afbf!important}
+#nav .tab.active,#nav .tab.active .tab-icon{color:#ff8b25!important}
+#nav .tab.active:after{content:"";display:block;width:19px;height:3px;border-radius:4px;background:#ff7a00;margin-top:1px}
+#app .sl-detail-back,#app a{color:#ffad6b}
+#app .instruction span{background:#b55d15!important;color:#fff!important}
+#app .sl-mistakes-card,#app .warning{border-color:#6b4147!important}
+#app .anatomy-key .dot,#app .dot{flex-shrink:0}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
