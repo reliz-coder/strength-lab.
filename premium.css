@@ -174,3 +174,37 @@ input,select{background:#0d1b2b;border:1px solid #30465e;border-radius:10px;colo
 .sl62-float.sl62-active{background:linear-gradient(125deg,#1267ad,#0b4e8b)}
 .sl73-returned{outline-color:#8cf2d8!important}
 @media(max-width:375px){.sl74-training-badge{font-size:8px;padding:5px 6px}.sl74-training-title h2{font-size:19px}}
+
+/* Strength Lab 7.5 — electric blue training / orange completion / charcoal setup */
+.sl72-launch{background:linear-gradient(145deg,#1b2b40,#142236)!important;border-color:#465e7a!important}
+.sl72-launch-head small,.sl72-picker label{color:#b7cbe2!important}
+.sl72-picker select{background:#23384f!important;border-color:#587899!important;color:#fff!important}
+.sl72-start{background:#2478e8!important;border-color:#67a6ff!important;color:#fff!important}
+.sl72-options{color:#b6cce6!important}
+.sl72-active button{background:#294967!important;border-color:#6389b0!important}
+.sl74-training-mark{background:#2585ff!important}
+.sl74-training-title small{color:#83beff!important}
+.sl74-training-title h2{color:#fff!important}
+.sl74-training-badge{background:#173e6b!important;border-color:#3186e8!important;color:#d3e8ff!important}
+#app .sl55-exercise.sl74-training-card{background:linear-gradient(145deg,#102d52,#0e2341)!important;border-color:#3288ff!important;box-shadow:0 5px 19px #0004!important}
+#app .sl55-exercise.sl74-training-card.sl55-complete{border-color:#f97316!important;box-shadow:inset 3px 0 0 #f97316,0 5px 19px #0004!important}
+.sl74-training-card .sl55-index{color:#83beff!important}
+.sl74-training-card .sl55-setcount{color:#b5d9ff!important;border-color:#467db6!important}
+.sl74-training-card .sl55-setrow{border-top-color:#315b88!important}
+.sl74-training-card .sl55-prior,.sl74-training-card .sl56-exmeta{color:#a7c7e9!important}
+.sl74-training-card .chip,.sl74-training-card .primary-chip{background:#204c7a!important;color:#d2e8ff!important}
+.sl74-training-card .set-fields input,.sl74-training-card input[type=number]{background:#1b416b!important;border-color:#497eb6!important;color:#fff!important}
+.sl74-training-card input[type=checkbox]{accent-color:#f97316!important}
+.sl74-training-card .sl56-quick button{background:#224d7c!important;border-color:#4785c5!important;color:#e1efff!important}
+.sl74-training-card .sl72-target{background:#193c65!important;border-color:#417bb4!important;color:#c8e2ff!important}
+.sl74-training-card a,.sl74-training-card .sl55-ex-head strong{color:#9dccff!important}
+.sl71-dock{background:linear-gradient(130deg,#153e70,#102f55)!important;border-color:#3186e8!important}
+.sl71-track{background:#365d88!important}
+.sl71-track>span{background:#f97316!important}
+.sl71-right b{color:#ff9b4a!important}
+.sl71-state.done{color:#ff9b4a!important}
+.sl71-details{border-top-color:#416c9b!important}
+.sl71-top small,.sl71-caption,.sl71-ex-sets{color:#b9d8f7!important}
+.sl62-float.sl62-active{background:linear-gradient(125deg,#1267ad,#0b4e8b)!important}
+.sl73-returned{outline-color:#ff9b4a!important}
+.sl74-training-card .sl56-quick button:focus-visible,.sl74-training-card input:focus-visible{outline-color:#ff9b4a!important}
