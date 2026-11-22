@@ -1,0 +1,30 @@
+/* Delta Lab 10.1 — editable Body metrics */
+#app .dl101-body{color:#f5f7fb;padding:5px 0 20px}
+#app .dl101-kicker{font-size:10px;letter-spacing:1.7px;color:#ffab50;font-weight:850}
+#app .dl101-body>h2{font-size:30px;letter-spacing:-.8px;margin:7px 0}
+#app .dl101-body>p{font-size:13px;line-height:1.55;color:#aeb7c4;margin:0 0 18px}
+#app .dl101-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+#app .dl101-stats>div{border:1px solid #454149;background:#1b1c22;border-radius:16px;padding:14px 11px;min-width:0}
+#app .dl101-stats small{font-size:10px;letter-spacing:1px;color:#b5bac5;font-weight:750}
+#app .dl101-stats strong{display:block;font-size:22px;margin:9px 0 5px;color:#ffb35b;letter-spacing:-.5px}
+#app .dl101-stats span{font-size:11px;color:#a4adba}
+#app .dl101-panel{background:#17191e;border:1px solid #3b3e47;border-radius:17px;padding:16px;margin-bottom:15px}
+#app .dl101-panel h3{font-size:18px;margin:0 0 13px}
+#app .dl101-panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+#app .dl101-panel-head h3{margin:0}
+#app .dl101-panel-head span{font-size:12px;color:#aeb6c2}
+#app .dl101-panel-head button{border:1px solid #56545b;border-radius:10px;background:#25272d;color:#ffb365;padding:9px 12px}
+#app .dl101-panel label{display:block;color:#bdc5cf;font-size:12px;font-weight:700;margin:10px 0 7px}
+#app .dl101-panel input{width:100%;min-height:46px;border:1px solid #4a4b55!important;border-radius:11px;background:#101217!important;color:#fff!important;padding:10px 12px;font-size:16px}
+#app .dl101-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#app .dl101-save{width:100%;min-height:49px;border-radius:12px;background:#ff9a0c!important;color:#111!important;border:1px solid #ffb454!important;font-weight:850;font-size:15px;margin-top:16px}
+#app .dl101-chart{display:block;width:100%;height:auto}
+#app .dl101-empty{font-size:12px;color:#adb5c1;line-height:1.5}
+#app .dl101-error{padding:10px;border:1px solid #a45c62;background:#3c2328;color:#ffe4e4;border-radius:9px;font-size:12px}
+#app .dl101-record{display:flex;align-items:center;gap:7px;padding:12px 0;border-top:1px solid #34363d}
+#app .dl101-record-main{flex:1;min-width:0;display:grid;gap:5px}
+#app .dl101-record-main strong{font-size:13px}
+#app .dl101-record-main small{font-size:11px;color:#b3bbc6;line-height:1.4}
+#app .dl101-record button{padding:8px 10px;border-radius:9px;background:#272930;border:1px solid #494b53;color:#ffb96c;font-size:12px;font-weight:750}
+#app .dl101-record button.dl101-delete{color:#ffb3b3;border-color:#654249}
+@media(max-width:370px){#app .dl101-panel{padding:12px}#app .dl101-record button{padding:8px 6px}}
