@@ -208,3 +208,20 @@ input,select{background:#0d1b2b;border:1px solid #30465e;border-radius:10px;colo
 .sl62-float.sl62-active{background:linear-gradient(125deg,#1267ad,#0b4e8b)!important}
 .sl73-returned{outline-color:#ff9b4a!important}
 .sl74-training-card .sl56-quick button:focus-visible,.sl74-training-card input:focus-visible{outline-color:#ff9b4a!important}
+
+/* Strength Lab 7.6 — warm light-orange exercise card surfaces */
+#app .sl55-exercise.sl74-training-card{background:linear-gradient(145deg,#f9dbb9,#efb980)!important;border:1px solid #f97316!important;color:#302017!important;box-shadow:0 6px 20px #0004!important}
+#app .sl55-exercise.sl74-training-card.sl55-complete{background:linear-gradient(145deg,#ffe4c6,#f6c28c)!important;border-color:#e9630a!important;box-shadow:inset 4px 0 0 #e9630a,0 6px 20px #0004!important}
+.sl74-training-card h2,.sl74-training-card h3,.sl74-training-card h4,.sl74-training-card b,.sl74-training-card strong,.sl74-training-card label,.sl74-training-card p,.sl74-training-card .lift-heading h3,.sl74-training-card .sl55-ex-head strong{color:#302017!important}
+.sl74-training-card .sl55-index{color:#934008!important}
+.sl74-training-card .sl55-setcount{background:#f9e8d6!important;color:#813a0a!important;border-color:#d99151!important}
+.sl74-training-card .sl55-setrow,.sl74-training-card .set-line{border-top-color:#d89d6b!important;border-color:#d89d6b!important}
+.sl74-training-card .sl55-prior,.sl74-training-card .sl56-exmeta,.sl74-training-card .muted,.sl74-training-card small{color:#71462c!important}
+.sl74-training-card .chip,.sl74-training-card .primary-chip{background:#ffe8cf!important;color:#793b11!important;border-color:#d99b60!important}
+.sl74-training-card .set-fields input,.sl74-training-card input[type=number]{background:#fff4e9!important;border:1px solid #d78a4c!important;color:#29211e!important}
+.sl74-training-card input[type=checkbox]{accent-color:#ec6c10!important}
+.sl74-training-card .sl56-quick button{background:#fff0de!important;border-color:#d78a4c!important;color:#6f340b!important}
+.sl74-training-card .sl72-target{background:#ffe9d2!important;border-color:#d89a62!important;color:#593119!important}
+.sl74-training-card .sl72-target summary,.sl74-training-card .sl72-target strong,.sl74-training-card .sl72-target div{color:#593119!important}
+.sl74-training-card a{color:#813b0d!important}
+.sl74-training-card button:not(.sl56-quick button){border-color:#cf874c}
