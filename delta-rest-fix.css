@@ -1,0 +1,47 @@
+/* Delta Lab 10.2: compact, bottom-pinned rest timer.
+   Prevent overlapping the workout progress dock and preserve scroll access. */
+body:has(#nav [data-page="train"].active) .sl62-float.sl62-active{
+ position:fixed!important;
+ top:auto!important;
+ left:0!important;
+ right:0!important;
+ bottom:calc(68px + env(safe-area-inset-bottom))!important;
+ width:100%!important;
+ max-width:none!important;
+ margin:0!important;
+ border-radius:14px 14px 0 0!important;
+ border:1px solid #5e4b37!important;
+ border-bottom:0!important;
+ background:#191b21!important;
+ box-shadow:0 -5px 18px #0008!important;
+ z-index:950!important;
+ transform:none!important;
+ max-height:min(38dvh,240px)!important;
+ overflow-y:auto!important;
+}
+body:has(#nav [data-page="train"].active) .sl62-float.sl62-active .sl62-summary{
+ min-height:55px!important;
+ align-items:center!important;
+}
+body:has(#nav [data-page="train"].active) .sl62-float.sl62-active #sl62-expand{
+ padding:8px 12px!important;
+ min-height:53px!important;
+}
+body:has(#nav [data-page="train"].active) .sl62-float.sl62-active .sl62-timer-icon{font-size:19px!important;color:#ffac4c!important}
+body:has(#nav [data-page="train"].active) .sl62-float.sl62-active .sl62-summary-label strong{font-size:21px!important;color:#ffb45e!important}
+body:has(#nav [data-page="train"].active) .sl62-float.sl62-active .sl62-summary-label small{color:#b9c0cb!important}
+body:has(#nav [data-page="train"].active) .sl62-float.sl62-active #sl62-quickskip{
+ background:#ff9a0c!important;color:#161616!important;border:0!important;min-height:38px!important;
+}
+body:has(#nav [data-page="train"].active) .sl62-float.sl62-active .sl62-progress{height:3px!important;background:#35373f!important}
+body:has(#nav [data-page="train"].active) .sl62-float.sl62-active .sl62-progress span{background:#ff9a0c!important}
+body:has(#nav [data-page="train"].active) .sl62-float.sl62-active .sl62-controls{padding:6px 12px 11px!important}
+body:has(#nav [data-page="train"].active) .sl62-float.sl62-active .sl62-controls button{background:#282b32!important;border-color:#52545b!important;color:#fff!important}
+body:has(#nav [data-page="train"].active) .sl62-float.sl62-active ~ .sl71-dock.sl71-visible{display:none!important}
+body:has(#nav [data-page="train"].active):has(.sl62-float.sl62-active) .sl71-dock.sl71-visible{display:none!important}
+body:has(#nav [data-page="train"].active):has(.sl62-float.sl62-active) #app{padding-bottom:calc(145px + env(safe-area-inset-bottom))!important}
+body:not(:has(#nav [data-page="train"].active)) .sl62-float{display:none!important}
+@media(max-width:390px){
+ body:has(#nav [data-page="train"].active) .sl62-float.sl62-active{left:0!important;right:0!important;bottom:calc(68px + env(safe-area-inset-bottom))!important}
+ body:has(#nav [data-page="train"].active) .sl62-float.sl62-active .sl62-summary-label small{max-width:150px!important}
+}
