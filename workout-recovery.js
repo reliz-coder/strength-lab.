@@ -25,7 +25,7 @@ function status(error=false){const el=document.querySelector("#sl61-status");if(
 function ensureFloat(){
  let dock=document.getElementById("sl62-float");
  if(dock)return dock;
- dock=document.createElement("aside");dock.id="sl62-float";dock.className="sl62-float";dock.setAttribute("aria-label","Floating workout rest timer");
+ dock=document.createElement("aside");dock.id="sl62-float";dock.className="sl62-float";dock.setAttribute("aria-label","Bottom-pinned workout rest timer");
  dock.innerHTML='<div class="sl62-summary"><button type="button" id="sl62-expand" aria-expanded="false"><span class="sl62-timer-icon">◷</span><span class="sl62-summary-label"><small id="sl62-name">REST TIMER</small><strong id="sl62-time">0:00</strong></span><span class="sl62-expand-label">Controls ⌃</span></button><button type="button" id="sl62-quickskip" aria-label="Skip rest">Skip</button></div><div class="sl62-controls" id="sl62-controls"><button type="button" id="sl62-toggle">Pause</button><button type="button" id="sl62-plus">+30 sec</button><button type="button" id="sl62-skip">Skip rest</button></div><div class="sl62-progress"><span id="sl62-progress"></span></div>';
  document.body.append(dock);
  dock.querySelector("#sl62-expand").onclick=()=>{restExpanded=!restExpanded;tick()};
@@ -40,7 +40,7 @@ function widget(){
  const app=document.querySelector("#app");if(!app)return;
  app.querySelectorAll(".sl55-rest").forEach(el=>el.remove());
  const panel=document.createElement("section");panel.className="sl61-panel sl62-save";
- panel.innerHTML='<div class="sl61-top"><div><small>WORKOUT RECOVERY</small><strong id="sl61-status">Ready to save</strong></div><span class="sl61-check">✓ Local autosave</span></div><p>Each edit is saved locally, with a recovery snapshot every five minutes. The rest timer floats above navigation.</p>';
+ panel.innerHTML='<div class="sl61-top"><div><small>WORKOUT RECOVERY</small><strong id="sl61-status">Ready to save</strong></div><span class="sl61-check">✓ Local autosave</span></div><p>Each edit is saved locally, with a recovery snapshot every five minutes. The rest timer stays pinned above the bottom navigation while you train.</p>';
  const first=app.querySelector(".sl55-overview")||app.querySelector(".workout-picker");if(first)first.after(panel);else app.prepend(panel);
  app.querySelectorAll(".lift-card").forEach((card,i)=>{const name=draft[i]?.name||"";const badge=document.createElement("div");badge.className="sl61-rest-hint";badge.textContent="Recommended rest: "+clockText(restFor(name))+" between sets";const heading=card.querySelector(".lift-heading")||card.querySelector("h3");if(heading)heading.after(badge);else card.prepend(badge)});
  ensureFloat();tick();status();
