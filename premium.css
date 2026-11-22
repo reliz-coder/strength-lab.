@@ -222,3 +222,10 @@ input,select{background:#0d1b2b;border:1px solid #30465e;border-radius:10px;colo
   background:linear-gradient(145deg,#102d52,#0e2341)!important;
   box-shadow:inset 4px 0 0 #f97316,0 5px 19px #0004!important;
 }
+
+/* Delta Lab 8.0 brand lockup — workout data and controls unchanged */
+.app-brand .brand-name:before{display:none!important;content:none!important}
+.app-brand .brand-name{display:flex;align-items:center;gap:9px;font-size:20px;font-weight:850;letter-spacing:.6px;white-space:nowrap}
+.app-brand .brand-name em{font-style:normal;color:#ff7a00}
+.app-brand .delta-brand-icon{display:block;width:36px;height:36px;object-fit:contain;border-radius:9px;flex:none}
+.app-brand .version{color:#ffae67;border-color:#76502e}
