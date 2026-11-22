@@ -50,3 +50,42 @@ main{max-width:600px}
 #app .sl-mistakes-card,#app .warning{border-color:#6b4147!important}
 #app .anatomy-key .dot,#app .dot{flex-shrink:0}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* Delta Lab 9.1 — screenshot-driven layout correction; targeted live DOM classes. */
+#app .sl55-exercise.sl74-training-card{padding:15px!important;border-radius:18px!important}
+#app .sl55-exercise.sl74-training-card .sl55-ex-head{margin-bottom:5px!important;gap:8px!important}
+#app .sl55-exercise.sl74-training-card .sl56-exmeta{margin:4px 0 10px!important;color:#b1bdcb!important}
+#app .sl55-exercise.sl74-training-card .swap-row{margin:10px 0 14px!important;padding:11px 12px!important;border:1px solid #34475c!important;background:#101d2d!important;border-radius:12px!important}
+#app .sl55-exercise.sl74-training-card .swap-label{color:#ffae69!important;font-size:10px!important;letter-spacing:1px!important;margin-bottom:7px!important}
+#app .sl55-exercise.sl74-training-card .swap-label span{color:#9faec0!important}
+#app .sl55-exercise.sl74-training-card .swap-select{background:#1b2b3e!important;border-color:#41546b!important;color:#fff!important}
+#app .sl55-exercise.sl74-training-card .swap-hint{font-size:11px!important;line-height:1.4!important;color:#a5b4c5!important;margin:7px 0 0!important}
+#app .sl55-exercise.sl74-training-card .sl55-setrow{padding-top:10px!important;margin-top:9px!important}
+#app .sl55-exercise.sl74-training-card .sl55-setcount{border-color:#a96b3a!important;color:#ffc18c!important}
+#app .sl55-exercise.sl74-training-card .set-fields input{min-height:44px!important;border-radius:10px!important}
+#app .sl55-exercise.sl74-training-card .sl55-prior{color:#b6c1cf!important}
+#app .sl55-exercise.sl74-training-card .sl56-quick button{border-color:#4a586a!important}
+#app .sl55-exercise.sl74-training-card .guide-action,#app .sl55-exercise.sl74-training-card .sl-detail-back{background:#1a2b3d!important;border:1px solid #485a6e!important;color:#ffb275!important;border-radius:11px!important}
+#app .sl74-training-card .sl55-ex-head strong{color:#ffb276!important}
+#app .sl74-training-card .sl55-setrow input[type=checkbox]{accent-color:#ff7a00!important}
+#app .sl56-cta,#app .sl56-chips button.active{background:#ff7a00!important;border-color:#ff9c45!important;color:#17202a!important}
+#app .sl56-bartrack span{background:linear-gradient(#ffb168,#ff7a00)!important}
+#app .sl56-result span:last-child{color:#ffb06c!important}
+#app .sl55-progress span{background:linear-gradient(90deg,#ff7a00,#ffc088)!important}
+#app .sl74-training-card .sl72-target summary{color:#ffd1a8!important}
+#app .sl72-active button{background:#243448!important;border-color:#586678!important;color:#fff!important}
+/* The progress dock is mounted on body, not inside #app. */
+body .sl71-dock.sl71-visible{left:12px!important;right:12px!important;bottom:calc(76px + env(safe-area-inset-bottom))!important;max-width:570px!important;border:1px solid #9b6034!important;border-radius:15px!important;background:#17273a!important;box-shadow:0 8px 26px #0009!important}
+body .sl71-dock .sl71-toggle{padding:9px 12px 8px!important}
+body .sl71-dock .sl71-top{align-items:center!important}
+body .sl71-dock .sl71-top>span:first-child{flex-direction:row!important;align-items:baseline!important;flex-wrap:wrap!important;gap:8px!important}
+body .sl71-dock .sl71-top small{color:#b3c1d1!important;font-size:10px!important;letter-spacing:.8px!important}
+body .sl71-dock .sl71-top strong{font-size:14px!important;color:#f7f9fc!important}
+body .sl71-dock .sl71-right b{font-size:17px!important;color:#ff9d4d!important}
+body .sl71-dock .sl71-track{height:3px!important;background:#39495c!important;margin:7px 0 0!important}
+body .sl71-dock .sl71-track>span{background:#ff7a00!important}
+body .sl71-dock .sl71-caption{display:none!important}
+body .sl71-dock .sl71-details:not([hidden]){border-color:#394b5e!important}
+body .sl71-dock .sl71-ex-sets{color:#b9c5d3!important}
+body.sl71-workout-visible #app{padding-bottom:82px!important}
+@media(max-width:390px){body .sl71-dock .sl71-top small{font-size:9px!important}body .sl71-dock .sl71-top strong{font-size:13px!important}}
