@@ -77,8 +77,8 @@ function insights(){
  while(app.firstChild)original.append(app.firstChild);
  app.append(panel);
  panel.querySelector("#dl10-original").append(original);
- panel.querySelector("#dl10-lift").onchange=e=>{selected=e.target.value;insights()};
- panel.querySelectorAll("[data-dl10-range]").forEach(b=>b.onclick=()=>{range=b.dataset.dl10Range;insights()});
+ panel.querySelector("#dl10-lift").onchange=e=>{selected=e.target.value;progressView()};
+ panel.querySelectorAll("[data-dl10-range]").forEach(b=>b.onclick=()=>{range=b.dataset.dl10Range;progressView()});
 }
 const oldProgress=progressView;
 progressView=function(){oldProgress();insights()};
