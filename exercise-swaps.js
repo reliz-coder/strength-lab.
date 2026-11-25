@@ -36,7 +36,7 @@ function groupFor(name){
  if(/lat pulldown|pull.up/.test(n))return "verticalPull";
  if(/row/.test(n))return "horizontalPull";
  if(/fly|pec deck/.test(n))return "chestFly";
- if(/bench press|incline press|chest press|push.up/.test(n))return "chestPress";
+ if(/bench press|incline (?:dumbbell )?press|chest press|push.up/.test(n))return "chestPress";
  if(/leg curl/.test(n))return "hamCurl";
  if(/leg extension/.test(n))return "quadExt";
  if(/lunge|split squat|step.up/.test(n))return "lunge";
@@ -49,6 +49,8 @@ function groupFor(name){
  return null;
 }
 function optionsFor(name){const key=groupFor(name);return key?{key,names:[name,...groups[key].filter(x=>x!==name)]}:null}
+window.deltaSwapOptions=name=>optionsFor(name)?.names||[];
+window.deltaApplySwap=(i,replacement)=>{const ex=draft[i];if(!ex||!optionsFor(ex.name)?.names.includes(replacement)||replacement===ex.name)return false;const last=previous(replacement);swaps[day+":"+i]=replacement;localStorage.setItem(STORAGE,JSON.stringify(swaps));ex.name=replacement;ex.sets.forEach(set=>{set.weight=last?.weight??0;set.reps=last?.reps??"";set.done=false;set.rir=2});return true};
 const oldNewDraft=newDraft;
 newDraft=function(){oldNewDraft();draft.forEach((ex,i)=>{const chosen=swaps[day+":"+i];if(!chosen||chosen===ex.name)return;const original=ex.name;const a=groupFor(original),b=groupFor(chosen);if(a!==b)return;ex.name=chosen;const last=previous(chosen);ex.sets.forEach(set=>{set.weight=last?.weight??0;set.reps=last?.reps??""})})};
 const oldTrain=trainView;
