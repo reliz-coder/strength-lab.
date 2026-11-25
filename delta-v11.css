@@ -74,3 +74,5 @@ main{max-width:620px!important;margin:auto!important;padding:0 16px calc(110px +
 body.sl71-workout-visible #app{padding-bottom:0!important}
 body:has(#nav [data-page="train"].active):has(.sl62-float.sl62-active) #app{padding-bottom:calc(145px + env(safe-area-inset-bottom))!important}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+#app .dl11-thumb{width:56px;height:56px;object-fit:cover;border-radius:9px;flex:none}#app .exercise-row{display:flex!important;align-items:center!important;gap:12px!important}#app .exercise-row .exercise-name{flex:1}#app .dl11-card .dl11-thumb{width:56px;height:56px}#app .dl101-stats strong{font-size:27px!important}#app .dl101-panel h3{font-size:18px!important}#app .dl101-record small{font-size:13px!important}
