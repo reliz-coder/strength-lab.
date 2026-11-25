@@ -76,3 +76,47 @@ body:has(#nav [data-page="train"].active):has(.sl62-float.sl62-active) #app{padd
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 
 #app .dl11-thumb{width:56px;height:56px;object-fit:cover;border-radius:9px;flex:none}#app .exercise-row{display:flex!important;align-items:center!important;gap:12px!important}#app .exercise-row .exercise-name{flex:1}#app .dl11-card .dl11-thumb{width:56px;height:56px}#app .dl101-stats strong{font-size:27px!important}#app .dl101-panel h3{font-size:18px!important}#app .dl101-record small{font-size:13px!important}
+
+/* 11.1 compact iPhone layout */
+html{background:#090e16!important;scroll-padding-top:calc(env(safe-area-inset-top) + 12px)}
+body{height:100dvh;overflow:hidden!important}
+main{height:100dvh;overflow-y:auto!important;overscroll-behavior-y:contain;padding:calc(env(safe-area-inset-top) + 8px) 16px calc(84px + env(safe-area-inset-bottom))!important;scroll-padding-top:calc(env(safe-area-inset-top) + 8px)}
+body:before{content:"";position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top);background:#090e16;z-index:1100;pointer-events:none}
+.app-brand{margin-bottom:8px!important;padding:4px 0!important}
+#nav{min-height:56px!important;padding:2px 8px calc(2px + env(safe-area-inset-bottom))!important}
+#nav .tab{min-height:48px!important;gap:2px!important}
+#nav .tab svg{width:21px;height:21px}
+#app h1{font-size:27px;margin:6px 0 12px}
+#app .dl11-card,#app .dl101-panel,#app .dl101-stats>div{padding:12px!important;margin:9px 0!important;border-radius:13px!important}
+#app .dl11-muted{font-size:13px!important;line-height:1.35;margin:5px 0}
+#app .dl11-kicker{font-size:11px!important;margin-bottom:5px}
+#app .dl11-workhead{margin:0 0 5px}
+#app .dl11-track{margin-bottom:10px}
+#app .dl11-lift{font-size:24px;margin-bottom:2px}
+#app .dl11-actions button{font-size:14px!important;padding:4px 8px!important}
+#app .dl11-table{margin:8px 0}
+#app .dl11-table-head{padding:4px 0}
+#app .dl11-table-row{min-height:44px}
+#app .dl11-table-row.current{background:#ff7a0012;box-shadow:inset 3px 0 #ff7a00;border-radius:6px}
+#app .dl11-table-row button{min-height:44px}
+#app .dl11-primary{margin:10px 0 5px!important}
+#app .dl11-fields input{min-height:44px;margin-top:3px}
+#app .dl11-section{margin:16px 0 8px}
+#app .dl11-value{margin:9px 0 3px;font-size:30px}
+#app .dl11-card:has(#dl11-lift) svg{max-height:145px}
+#app .dl11-statgrid{gap:8px}
+#app .dl11-statgrid .dl11-card{margin:0!important;padding:11px!important}
+#app .dl11-statgrid strong{font-size:21px;margin-top:4px}
+#app .dl11-rank{padding:8px 0;margin:4px 0}
+#app .dl11-body-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#app .dl11-body-head h2{margin:0!important;font-size:28px}
+#app .dl11-body-add{min-height:44px;padding:8px 15px;border:0;border-radius:10px;background:#ff7a00;color:#111;font-weight:750}
+#app .dl101-body>p{font-size:13px!important;margin:6px 0 10px!important}
+#app .dl101-stats>div{margin:0!important}
+#app .dl101-stats strong{color:#f4f6f9!important;font-size:24px!important}
+#app .dl11-empty-panel{padding:10px 12px!important}
+#app .dl11-empty-panel h3{font-size:16px!important;margin:0 0 4px!important}
+#app .dl11-empty-panel .dl101-empty{font-size:13px!important;margin:0!important;padding:0!important}
+body:has(#nav [data-page="train"].active) .sl62-float.sl62-active{bottom:calc(56px + env(safe-area-inset-bottom))!important}
+body:has(#nav [data-page="train"].active):has(.sl62-float.sl62-active) main{padding-bottom:calc(160px + env(safe-area-inset-bottom))!important}
+body:has(#nav [data-page="train"].active):has(.sl62-float.sl62-expanded) main{padding-bottom:calc(300px + env(safe-area-inset-bottom))!important}
