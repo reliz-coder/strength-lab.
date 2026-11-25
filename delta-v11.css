@@ -1,0 +1,76 @@
+/* Delta Lab 11 unified design tokens and mobile layout */
+:root{--dl-bg:#090e16;--dl-card:#18212c;--dl-line:#303b48;--dl-accent:#ff7a00;--dl-text:#f4f6f9;--dl-muted:#a6b3c2}
+body{background:var(--dl-bg)!important;color:var(--dl-text)!important;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important}
+main{max-width:620px!important;margin:auto!important;padding:0 16px calc(110px + env(safe-area-inset-bottom))!important}
+.app-brand{background:transparent!important;border:0!important;box-shadow:none!important;padding:12px 0!important;gap:8px!important}
+.app-brand .brand-name{font-size:20px!important;letter-spacing:.3px!important}
+.app-brand .version{font-size:10px!important;color:var(--dl-muted)!important;margin-left:auto!important}
+#refresh-app,#dl11-settings{min-height:44px!important;min-width:44px!important;background:transparent!important;border:0!important;color:var(--dl-muted)!important;padding:8px!important}
+#app h1{font-size:30px;letter-spacing:-.9px;line-height:1.15;margin:8px 0 18px;font-weight:750}
+#app h2{font-size:21px;line-height:1.25;letter-spacing:-.3px;margin:0 0 8px}
+#app .dl11-section{font-size:18px;margin:24px 0 12px}
+#app .dl11-card,#app .dl101-panel,#app .dl101-stats>div{background:var(--dl-card)!important;border:1px solid var(--dl-line)!important;border-radius:16px!important;box-shadow:none!important;padding:16px!important;margin:12px 0!important}
+#app .dl11-kicker{font-size:12px!important;font-weight:750;color:#ffad69!important;letter-spacing:1px;margin:0 0 8px}
+#app .dl11-muted,#app .dl101-body>p{font-size:14px!important;color:var(--dl-muted)!important;line-height:1.5;margin:8px 0}
+#app .dl11-primary,#app .dl101-save{display:block;width:100%;min-height:48px;background:var(--dl-accent)!important;color:#111!important;border:0!important;border-radius:12px!important;font-size:16px!important;font-weight:750!important;margin:14px 0 10px!important}
+#app .dl11-secondary{width:100%;min-height:44px;background:#222e3b!important;color:var(--dl-text)!important;border:1px solid #425063!important;border-radius:10px!important;font-size:14px;margin-top:10px}
+#app .dl11-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:20px 0}
+#app .dl11-metrics strong{font-size:22px;display:block;font-variant-numeric:tabular-nums}
+#app .dl11-metrics small,#app .dl11-statgrid small{font-size:12px;color:var(--dl-muted);display:block;margin-top:4px}
+#app .dl11-card label{font-size:13px;color:var(--dl-muted);display:block;margin-top:12px}
+#app .dl11-card select,#app .dl11-fields input,#app #dl11-lift{width:100%;min-height:46px;background:#101722!important;border:1px solid #435063!important;border-radius:10px!important;color:#fff!important;font-size:16px!important;padding:9px!important}
+#app .dl11-list{padding:4px 12px!important}
+#app .dl11-list button{display:grid;grid-template-columns:38px minmax(0,1fr) 18px;align-items:center;gap:12px;width:100%;text-align:left;min-height:64px;background:transparent!important;border:0!important;border-bottom:1px solid var(--dl-line)!important;color:var(--dl-text)!important;padding:10px 0!important;font-size:15px}
+#app .dl11-list button:last-child{border-bottom:0!important}
+#app .dl11-list small{display:block;color:var(--dl-muted);font-size:13px;margin-top:4px}
+#app .dl11-number{background:#263342;border-radius:9px;padding:9px;text-align:center;color:#a6b3c2}
+#app .dl11-workhead{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;text-align:center;margin:4px 0 14px}
+#app .dl11-workhead button,#app .dl11-actions button{min-height:44px;background:transparent!important;border:0!important;color:#ffad69!important;font-size:15px!important;padding:8px!important}
+#app .dl11-workhead button{font-size:25px!important}
+#app .dl11-workhead small{display:block;color:var(--dl-muted);font-size:12px;margin-top:4px}
+#app .dl11-track{height:5px;background:#303b48;border-radius:10px;overflow:hidden;margin:0 0 18px}
+#app .dl11-track span{display:block;height:100%;background:var(--dl-accent)}
+#app .dl11-lift{margin-bottom:3px;font-size:28px}
+#app .dl11-actions{display:flex;justify-content:space-between;gap:6px}
+#app .dl11-actions button:disabled{opacity:.35}
+#app .dl11-table{margin:14px 0}
+#app .dl11-table-head,#app .dl11-table-row{display:grid;grid-template-columns:.65fr 1.25fr 1fr .8fr .8fr;gap:5px;align-items:center;text-align:center;font-variant-numeric:tabular-nums}
+#app .dl11-table-head{color:var(--dl-muted);font-size:12px;padding:8px 0}
+#app .dl11-table-row{min-height:48px;border-bottom:1px solid var(--dl-line);font-size:15px}
+#app .dl11-table-row.done{color:#79d9a6}
+#app .dl11-table-row button{min-height:44px;min-width:44px;background:#202c39!important;color:inherit!important;border:0!important;border-radius:9px!important;font-size:21px!important}
+#app .dl11-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+#app .dl11-fields label{margin:0!important}
+#app .dl11-fields input{margin-top:6px}
+#app .dl11-check{display:flex!important;align-items:center;gap:10px;font-size:14px!important}
+#app .dl11-check input{width:22px!important;height:22px!important;min-height:22px!important;accent-color:var(--dl-accent)}
+#app .dl11-segments{display:flex;gap:4px;background:#18212c;border-radius:12px;padding:4px}
+#app .dl11-segments button{flex:1;min-height:44px;border:0!important;background:transparent!important;color:var(--dl-muted)!important;font-size:14px!important;border-radius:9px}
+#app .dl11-segments button.selected{background:#344050!important;color:#fff!important}
+#app .dl11-value{font-size:32px;font-weight:750;margin:16px 0 4px;font-variant-numeric:tabular-nums}
+#app .dl11-value small{font-size:15px;color:var(--dl-muted)}
+#app .dl11-value .gain,#app .dl11-rank b{color:#64d29b}
+#app .dl11-card svg{width:100%;height:auto;display:block}
+#app .dl11-statgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#app .dl11-statgrid .dl11-card{margin:0!important}
+#app .dl11-statgrid strong{display:block;font-size:22px;margin-top:8px;overflow-wrap:anywhere}
+#app .dl11-rank{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--dl-line);font-size:14px}
+#app .dl11-card summary{min-height:44px;padding:10px 0;font-size:14px;color:#ffad69}
+#app .dl101-stats{gap:10px!important}
+#app .dl101-stats>div{margin:0!important}
+#app .dl101-record button{min-height:44px!important;font-size:13px!important}
+#app .dl101-body input{font-size:16px!important;min-height:44px!important}
+#app .dl101-body [hidden],#app [hidden]{display:none!important}
+#app .sl59-guide-lead h2{font-size:28px!important}
+#app .exercise-row{min-height:60px!important;border-radius:12px!important;background:var(--dl-card)!important;border:1px solid var(--dl-line)!important}
+#app .exercise-row .exercise-name b{font-size:15px!important}
+#app .exercise-row .exercise-name small{font-size:13px!important}
+#app .filter,#app .guide-action,#app .sl-detail-back{min-height:44px!important;font-size:14px!important}
+#app .card{box-shadow:none!important}
+#nav{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;background:#0b1423!important;min-height:68px!important;padding:5px 8px calc(5px + env(safe-area-inset-bottom))!important}
+#nav .tab{min-height:56px!important;font-size:12px!important;gap:4px!important}
+#nav .tab.active:after{display:none!important}
+#sl71-dock{display:none!important}
+body.sl71-workout-visible #app{padding-bottom:0!important}
+body:has(#nav [data-page="train"].active):has(.sl62-float.sl62-active) #app{padding-bottom:calc(145px + env(safe-area-inset-bottom))!important}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
