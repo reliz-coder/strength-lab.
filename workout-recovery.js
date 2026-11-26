@@ -60,6 +60,7 @@ function startRest(i,j){
  restName=draft[i]?.name||"";
  restDuration=restFor(restName);restEnd=Date.now()+restDuration*1000;restPaused=null;restVisible=true;restExpanded=false;lastRestSet=i+":"+j;tick();
 }
+window.deltaStartRest=startRest;
 function updateFromInput(el){const i=Number(el.dataset.i),j=Number(el.dataset.j),field=el.dataset.field;if(!draft[i]?.sets[j])return;const set=draft[i].sets[j];const before=!!set.done;set[field]=field==="done"?!!el.checked:el.value===""?"":Number(el.value)||0;persist();if(field==="done"&&set.done&&!before)startRest(i,j)}
 // Capture input before existing change handlers. This includes edits not yet blurred.
 document.addEventListener("input",e=>{const el=e.target;if(page!=="train"||!el.matches?.('[data-field]'))return;updateFromInput(el)},true);
