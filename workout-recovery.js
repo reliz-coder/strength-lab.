@@ -13,7 +13,7 @@ function restFor(name){
  return 90;
 }
 function clockText(s){s=Math.max(0,Math.ceil(s));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")}
-function draftPayload(){return {version:1,day,program:PROGRAMS[day]?.name,cardio,exercises:structuredClone(draft),savedAt:Date.now()}}
+function draftPayload(){return {version:1,day,program:PROGRAMS[day]?.name,cardio,cardioEntry:cardio?window.deltaCardioDraft?.()??null:null,exercises:structuredClone(draft),savedAt:Date.now()}}
 function validPayload(x){return x&&Number.isInteger(x.day)&&x.day>=0&&x.day<PROGRAMS.length&&Array.isArray(x.exercises)&&x.exercises.length>0&&x.exercises.every(e=>e&&typeof e.name==="string"&&Array.isArray(e.sets))}
 function persist(snapshot=false){try{const x=draftPayload();localStorage.setItem(DRAFT_KEY,JSON.stringify(x));savedAt=x.savedAt;if(snapshot)localStorage.setItem(SNAP_KEY,JSON.stringify(x));status();return true}catch(e){status(true);return false}}
 function restore(){
