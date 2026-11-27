@@ -26,7 +26,7 @@ function ensureFloat(){
  let dock=document.getElementById("sl62-float");
  if(dock)return dock;
  dock=document.createElement("aside");dock.id="sl62-float";dock.className="sl62-float";dock.setAttribute("aria-label","Bottom-pinned workout rest timer");
- dock.innerHTML='<div class="sl62-summary"><button type="button" id="sl62-expand" aria-expanded="false"><span class="sl62-timer-icon">◷</span><span class="sl62-summary-label"><small id="sl62-name">REST TIMER</small><strong id="sl62-time">0:00</strong></span><span class="sl62-expand-label">Controls ⌃</span></button><button type="button" id="sl62-quickskip" aria-label="Skip rest">Skip</button></div><div class="sl62-controls" id="sl62-controls"><button type="button" id="sl62-toggle">Pause</button><button type="button" id="sl62-plus">+30 sec</button><button type="button" id="sl62-skip">Skip rest</button></div><div class="sl62-progress"><span id="sl62-progress"></span></div>';
+ dock.innerHTML='<div class="sl62-summary"><button type="button" id="sl62-expand" aria-expanded="false"><span class="sl62-timer-icon dl14-ring"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16" fill="none" stroke="#414955" stroke-width="3"/><circle id="dl14-rest-ring" cx="20" cy="20" r="16" fill="none" stroke="#ff8a32" stroke-width="3" stroke-linecap="round" pathLength="100" stroke-dasharray="100" transform="rotate(-90 20 20)"/></svg></span><span class="sl62-summary-label"><small id="sl62-name">REST TIMER</small><strong id="sl62-time">0:00</strong></span><span class="sl62-expand-label">Controls ⌃</span></button><button type="button" id="sl62-quickskip" aria-label="Skip rest">Skip</button></div><div class="sl62-controls" id="sl62-controls"><button type="button" id="sl62-toggle">Pause</button><button type="button" id="sl62-plus">+30 sec</button><button type="button" id="sl62-skip">Skip rest</button></div><div class="sl62-progress"><span id="sl62-progress"></span></div>';
  document.body.append(dock);
  dock.querySelector("#sl62-expand").onclick=()=>{restExpanded=!restExpanded;tick()};
  dock.querySelector("#sl62-toggle").onclick=()=>{if(restEnd){restPaused=Math.max(0,restEnd-Date.now());restEnd=0}else{restEnd=Date.now()+(restPaused??restDuration*1000);restPaused=null;restVisible=true}tick()};
@@ -50,7 +50,7 @@ function tick(){
  if(restEnd&&remaining===0){restEnd=0;restPaused=null;restVisible=false;restExpanded=false}
  dock.classList.toggle("sl62-active",restVisible);
  dock.classList.toggle("sl62-expanded",restExpanded&&restVisible);
- dock.querySelector("#sl62-time").textContent=clockText(remaining/1000);
+ dock.querySelector("#sl62-time").textContent=clockText(remaining/1000);dock.querySelector("#dl14-rest-ring")?.setAttribute("stroke-dashoffset",String(100-(restDuration?Math.max(0,Math.min(100,remaining/(restDuration*1000)*100)):0)));
  dock.querySelector("#sl62-name").textContent=restName?"REST · "+restName:"REST TIMER";
  dock.querySelector("#sl62-expand").setAttribute("aria-expanded",String(restExpanded));
  dock.querySelector("#sl62-toggle").textContent=restEnd?"Pause":restPaused!==null?"Resume":"Start";
