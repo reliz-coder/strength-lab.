@@ -16,3 +16,10 @@ html,body{background:#0c1017!important}body:before{background:#0c1017!important}
 @keyframes dl14-enter{from{opacity:.65;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}@keyframes dl14-confirm{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
 @media(prefers-reduced-motion:no-preference){#app .dl124-confirm,#app .dl121-celebrate{animation:dl14-confirm .22s ease-out}#app .dl11-lift,#app .dl14-target{animation:dl14-enter .18s ease-out}#app button{transition:background-color .16s,color .16s,transform .12s}#app button:active:not(:disabled){transform:scale(.98)}#app .dl11-track span{transition:width .25s ease}}
 @media(prefers-reduced-motion:reduce){#app *,#nav *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+#sl62-float .dl14-ring{width:40px;height:40px;background:transparent!important;flex:none}#sl62-float .dl14-ring svg{width:40px;height:40px;display:block}#dl14-rest-ring{transition:stroke-dashoffset .5s linear}
+#app .dl14-completion-ring{display:grid;place-items:center;margin:12px auto;width:86px;height:86px;border:5px solid #4fd4a0;border-radius:50%;color:#4fd4a0;font-size:44px;font-weight:750}#app .dl125-completion:has(.dl14-completion-ring){padding:24px!important}
+@keyframes dl14-draw{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:no-preference){#app .dl14-chart-line{stroke-dasharray:100;animation:dl14-draw .45s ease-out both}#app .dl14-completion-ring{animation:dl14-confirm .25s ease-out}}
+@media(prefers-reduced-motion:reduce){#dl14-rest-ring{transition:none!important}}
+#app .photo-frame,#app .motion-stage,#app .anatomical-image-wrap{background:#10151d!important;border-radius:14px!important;border-color:#303843!important}#app .photo-frame img{object-fit:contain}
