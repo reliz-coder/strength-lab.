@@ -23,3 +23,5 @@ html,body{background:#0c1017!important}body:before{background:#0c1017!important}
 @media(prefers-reduced-motion:no-preference){#app .dl14-chart-line{stroke-dasharray:100;animation:dl14-draw .45s ease-out both}#app .dl14-completion-ring{animation:dl14-confirm .25s ease-out}}
 @media(prefers-reduced-motion:reduce){#dl14-rest-ring{transition:none!important}}
 #app .photo-frame,#app .motion-stage,#app .anatomical-image-wrap{background:#10151d!important;border-radius:14px!important;border-color:#303843!important}#app .photo-frame img{object-fit:contain}
+
+#app .dl14-learn summary,#app .dl101-panel summary{min-height:44px;cursor:pointer;font-weight:700}#app .dl14-settings{margin-bottom:16px}#app .dl101-save{background:#ff8a32!important;color:#111!important;min-height:52px}#app .dl101-chart{width:100%}#app .dl101-body h2{letter-spacing:-.8px}#app .dl101-panel input{min-height:44px}
