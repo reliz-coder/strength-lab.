@@ -1,0 +1,31 @@
+/* Signature screen layout */
+:root{--sig-bg:#0c1017;--sig-surface:#181e27;--sig-control:#252d38;--sig-text:#f4f6f9;--sig-muted:#a6b0be;--sig-accent:#ff8a32}
+html[data-precision-theme="light"]{--sig-bg:#f3f5f8;--sig-surface:#fff;--sig-control:#e5eaf0;--sig-text:#17212e;--sig-muted:#475569}
+@media(prefers-color-scheme:light){html[data-precision-theme="system"]{--sig-bg:#f3f5f8;--sig-surface:#fff;--sig-control:#e5eaf0;--sig-text:#17212e;--sig-muted:#475569}}
+#app{color:var(--sig-text);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif}
+#app :is(.dl11-card,.dl101-panel,.dl14-settings){background:var(--sig-surface)!important;border:0!important;border-radius:18px!important;padding:16px!important;box-shadow:none!important}
+#app :is(h1,.dl101-body>h2){font-size:28px;line-height:1.12;letter-spacing:-.8px}
+#app :is(h2,h3){letter-spacing:-.35px;line-height:1.2}
+#app .dl151-hero .dl11-value{font-size:44px;line-height:1.1;font-weight:750}
+#app .dl151-hero .dl16-index{background:transparent!important;padding:0!important;margin:12px 0 0!important}
+#app .dl151-hero .dl16-index h2{display:none}
+#app .dl16-index svg{display:block;width:100%;max-height:145px}
+#app .dl16-coach-answer{background:var(--sig-control);padding:16px;border-radius:14px;line-height:1.5}
+#app .dl16-coach-options{display:grid;gap:8px;margin-top:12px}
+#app .dl16-coach-options button{min-height:48px;text-align:left;background:var(--sig-control);color:var(--sig-text);border:0;border-radius:12px;padding:12px}
+#app .signature-library{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#app .signature-library [data-ex]{display:flex!important;flex-direction:column;align-items:stretch!important;text-align:left;min-width:0;padding:10px!important;border:0!important;background:var(--sig-surface)!important;border-radius:14px!important;overflow:hidden}
+#app .signature-library .dl11-thumb{width:100%!important;height:auto!important;aspect-ratio:4/3;object-fit:contain}
+#app .signature-library [data-ex] span{white-space:normal}
+#app .signature-workout .dl11-workhead{margin-bottom:10px}
+#app .signature-workout .dl14-target{padding:10px 14px!important}
+#app .signature-workout .dl14-target h2{font-size:19px}
+#app .signature-workout #dl11-editor{margin:12px 0}
+#app .signature-workout .dl11-fields{gap:8px}
+#app .signature-workout .dl11-fields label{background:var(--sig-control)!important;color:var(--sig-text);border:0;padding:8px}
+#app .signature-workout .dl11-fields input{background:transparent!important;border:0!important;font-size:28px!important}
+#app .dl16-photo{background:var(--sig-control)!important;color:var(--sig-text);min-height:180px}
+#app .dl16-muscles svg{display:block;width:100%;max-height:230px}
+#app .dl14-settings select{background:var(--sig-control);color:var(--sig-text);border:0;border-radius:12px}
+#app .dl14-settings .dl11-kicker{margin-top:20px}
+#app .dl14-settings #dl14-update{min-height:48px;width:100%}
