@@ -1,0 +1,18 @@
+/* Precision Design — isolated development branch */
+:root{--dl-bg:#0c1017;--dl-card:#181e27;--dl-line:#303843;--dl-accent:#ff8a32;--dl-muted:#a6b0be;--delta-orange:#ff8a32}
+html,body{background:#0c1017!important}body:before{background:#0c1017!important}
+#app .dl11-card,#app .dl101-panel,#app .dl101-stats>div,#app .card{background:#181e27!important;border-color:transparent!important;border-radius:18px!important;box-shadow:none!important}
+#app h1{font-size:30px;letter-spacing:-1px}#app .dl11-kicker{color:#b2bbc8!important;letter-spacing:1.2px}
+#app .dl11-primary:not(.dl124-saved):not(.dl124-finish),#app .primary:not(:disabled){background:#ff8a32!important;color:#111!important;box-shadow:none!important;border:0!important;min-height:52px!important;border-radius:14px!important}
+#app .dl11-fields input{font-size:24px!important;text-align:center;font-weight:750;font-variant-numeric:tabular-nums;background:#0c1017!important;border-color:#343d48!important}
+#app .dl14-stepper{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:6px}#app .dl14-stepper button{min-height:44px;background:#252d38!important;color:#f4f6f9!important;border:0!important;padding:4px!important;font-size:20px!important}
+#app .dl14-target summary{color:#a6b0be;min-height:44px}#app .dl14-target h2{font-size:26px}
+#app .dl11-table-row.current{background:#ff8a3210;box-shadow:inset 3px 0 #ff8a32}
+#nav{background:#0c1017f5!important;border-top-color:#252d38!important;box-shadow:none!important}#nav .tab.active svg{background:#35271e;border-radius:9px;box-sizing:content-box;padding:4px 13px}#nav .tab.active{color:#ff8a32!important}
+#app .dl130-tabs{background:#0c1017!important}#app .dl130-tabs button.selected{background:#ff8a32!important;color:#111!important}
+#app .dl123-insight,#app .dl123-next,#app .dl123-trend,#app .dl127-row{background:#202732!important;border-color:transparent!important;border-radius:14px}
+#app .dl11-metrics strong,#app .dl11-value,#app .dl101-stats strong{font-variant-numeric:tabular-nums;letter-spacing:-.7px}
+#app .dl125-completion:has(.dl124-finish) h2{font-size:28px}
+@keyframes dl14-enter{from{opacity:.65;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}@keyframes dl14-confirm{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@media(prefers-reduced-motion:no-preference){#app .dl124-confirm,#app .dl121-celebrate{animation:dl14-confirm .22s ease-out}#app .dl11-lift,#app .dl14-target{animation:dl14-enter .18s ease-out}#app button{transition:background-color .16s,color .16s,transform .12s}#app button:active:not(:disabled){transform:scale(.98)}#app .dl11-track span{transition:width .25s ease}}
+@media(prefers-reduced-motion:reduce){#app *,#nav *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
